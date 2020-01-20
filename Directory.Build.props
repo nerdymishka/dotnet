@@ -1,0 +1,15 @@
+<Project>
+  <PropertyGroup Condition=" '$(MSBuildProjectExtension)' == '.csproj' ">
+    <PackageId Condition=" '$(PackageId)' == '' ">$(AssemblyName)</PackageId>
+    <Description Condition=" '$(Description)' == '' ">$(PackageId)</Description>
+    <Product Condition=" '$(Product)' == '' ">$(AssemblyName)</Product>
+    <Version Condition=" '$(Version)' == '' ">0.1.0</Version>
+    <Company>NerdyMishka</Company>
+    <Authors>Michael Herndon</Authors>
+    <PackageLicenseUrl>https://licenses.nuget.org/Apache-2.0</PackageLicenseUrl>
+    <Copyright>NerdyMishka © 2016 - 2020</Copyright>
+    <PackageTags>nerdymishka</PackageTags>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <CodeAnalysisRuleSet>$(MSBuildStartupDirectory)/nerdymishka.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+</Project>
