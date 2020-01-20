@@ -10,6 +10,6 @@
     <Copyright>NerdyMishka © 2016 - 2020</Copyright>
     <PackageTags>nerdymishka</PackageTags>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <CodeAnalysisRuleSet>$(MSBuildStartupDirectory)/nerdymishka.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)/nerdymishka.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 </Project>

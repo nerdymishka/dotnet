@@ -2,6 +2,8 @@
   <ItemGroup Condition="'$(Analyzers)' != 'false'">
     <PackageReference Include="SecurityCodeScan" Version="3.4.0" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" />
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers"
+      Version="2.9.8" />
   </ItemGroup>
 </Project>
 

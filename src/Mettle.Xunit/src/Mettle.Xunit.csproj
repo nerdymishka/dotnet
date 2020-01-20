@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Version>2.4.0</Version>
+    <PackageProjectUrl>https://github.com/nerdymishka/dotnet/tree/master/src/Mettle.Xunit/src</PackageProjectUrl>
+    <Description>Mettle is a custom Test Framework for Xunit.net that extends and overrides
+XUnit to enable:
+
+- DI for constructors and test methods.
+- Custom test attributes and automatic traits based on those attributes.
+- Provides an IAssert class that enables the use of extension methods
+  and injection into the test method parameter or test class constructor.
+    </Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="xunit" Version="2.4.0" />
+    <PackageReference Include="xunit.assert" Version="2.4.0" />
+  </ItemGroup>
+
+</Project>
