@@ -8,6 +8,12 @@ XUnit to enable:
 - Provides an IAssert class that enables the use of extension methods
   and injection into the test method parameter or test class constructor.
 
+## Source Attribution
+
+The majority of the source code comes from Xunit, which is under the Apache 2.0.
+The source can be found on github at [github.com/xunit/xunit](https://github.com/xunit/xunit).
+Without Xunit, this project would not exist.
+
 ## Rationale
 
 Besides being lazy, I wrote mettle to be more productive in writing tests. Xunit

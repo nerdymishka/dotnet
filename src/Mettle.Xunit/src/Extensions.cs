@@ -15,9 +15,7 @@ namespace Mettle
 
         public static bool Contains<TKey, TValue>(this IDictionary<TKey, List<TValue>> dictionary, TKey key, TValue value, IEqualityComparer<TValue> valueComparer)
         {
-            List<TValue> values;
-
-            if (!dictionary.TryGetValue(key, out values))
+            if (!dictionary.TryGetValue(key, out List<TValue> values))
                 return false;
 
             return values.Contains(value, valueComparer);
@@ -31,9 +29,7 @@ namespace Mettle
 
         public static TValue GetOrAdd<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TValue> newValue)
         {
-            TValue result;
-
-            if (!dictionary.TryGetValue(key, out result))
+            if (!dictionary.TryGetValue(key, out TValue result))
             {
                 result = newValue();
                 dictionary[key] = result;

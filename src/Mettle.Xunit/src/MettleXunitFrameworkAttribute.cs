@@ -12,9 +12,6 @@ namespace Mettle
     public sealed class MettleXunitFrameworkAttribute : System.Attribute,
         ITestFrameworkAttribute
     {
-        /// <summary>
-        /// Creates a new instance of <see cref="MettleXunitFrameworkAttribute" />
-        /// </summary>
         public MettleXunitFrameworkAttribute()
         {
         }

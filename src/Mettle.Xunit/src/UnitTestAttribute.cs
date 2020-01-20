@@ -10,6 +10,7 @@ namespace Mettle
     public class UnitTestAttribute : TestCaseAttribute
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="UnitTestAttribute"/> class.
         /// Creates a new instance of <see cref="UnitTestAttribute" />
         /// </summary>
         public UnitTestAttribute()

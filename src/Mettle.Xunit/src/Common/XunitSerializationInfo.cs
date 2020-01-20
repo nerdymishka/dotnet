@@ -305,9 +305,7 @@ namespace Xunit.Serialization
         /// <inheritdoc/>
         public object GetValue(string key, Type type)
         {
-            XunitSerializationTriple val;
-
-            if (this.data.TryGetValue(key, out val))
+            if (this.data.TryGetValue(key, out XunitSerializationTriple val))
                 return val.Value;
 
             if (type.IsValueType())

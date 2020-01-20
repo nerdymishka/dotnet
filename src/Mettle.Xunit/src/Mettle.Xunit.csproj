@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
     <Version>2.4.0</Version>
     <PackageProjectUrl>https://github.com/nerdymishka/dotnet/tree/master/src/Mettle.Xunit/src</PackageProjectUrl>
     <Description>Mettle is a custom Test Framework for Xunit.net that extends and overrides
@@ -12,7 +12,23 @@ XUnit to enable:
 - Provides an IAssert class that enables the use of extension methods
   and injection into the test method parameter or test class constructor.
     </Description>
+    <IsTestProject>false</IsTestProject>
+    
   </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
+    <DefineConstants>TRACE;XUNIT_FRAMEWORK</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
+    <DefineConstants>TRACE;XUNIT_FRAMEWORK</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="../../Common/ArgumentNullOrEmptyException.cs" />
+    <Compile Include="../../Common/ArgumentNullOrWhiteSpaceException.cs" />
+    <Compile Include="../../Common/Check.cs" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="xunit" Version="2.4.0" />
