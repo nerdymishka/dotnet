@@ -6,10 +6,31 @@
     <Version Condition=" '$(Version)' == '' ">0.1.0</Version>
     <Company>NerdyMishka</Company>
     <Authors>Michael Herndon</Authors>
-    <PackageLicenseUrl>https://licenses.nuget.org/Apache-2.0</PackageLicenseUrl>
+    <PackageIcon>logo.png</PackageIcon>
+    <PackageIconUrl>http://logo.nerdyishka.com</PackageIconUrl>
+    <PackageLicense>Apache-2.0</PackageLicense>
     <Copyright>NerdyMishka © 2016 - 2020</Copyright>
     <PackageTags>nerdymishka</PackageTags>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageIcon>logo.png</PackageIcon>
     <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)/nerdymishka.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+
+
+  <ItemGroup Condition="'$(Analyzers)' != 'false'">
+    <PackageReference Include="SecurityCodeScan" Version="3.4.0" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" />
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers"
+      Version="2.9.8" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Nerdbank.GitVersioning">
+      <Version>3.0.50</Version>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)\build\logo.png" Pack="true" PackagePath="\"/>
+  </ItemGroup>
 </Project>

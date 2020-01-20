@@ -13,7 +13,6 @@ XUnit to enable:
   and injection into the test method parameter or test class constructor.
     </Description>
     <IsTestProject>false</IsTestProject>
-    
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">

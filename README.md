@@ -4,6 +4,9 @@ An assortment of .NET libraries migrated from previous repositories
 
 ## Projects
 
+- [Mettle.XUnit](src/Mettle.Xunit/src/README.md) - XUnit extensions that enable
+  DI for test methods and test class constructors.
+
 ### Extensions
 
 - [Extensions.File.Abstractions](src/Extensions/File.Abstractions/src/README.md)
@@ -11,6 +14,10 @@ An assortment of .NET libraries migrated from previous repositories
 ## Documentation
 
 - [Project Structure](docs/project_structure.md)
+
+## Nuget Feeds
+
+- `https://www.myget.org/F/nerdymishka-nuget/api/v3/index.json`
 
 ## Remotes
 

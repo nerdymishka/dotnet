@@ -10,14 +10,14 @@ Properties {
     }
     $ci = @{
         artifactsDir = (Get-ConfigProp "BUILD_ARTIFACTSSTAGINGDIRECTORY" `
-            -Default "$PsScriptRoot/artifacts")
+                -Default "$PsScriptRoot/artifacts")
     }
 }
 
 Task "test:unit" {
     exec { 
         $testDir = "$($ci.artifactsDir)/tests/unit"
-        if(!(Test-Path $testDir)) { New-Item $testDir -ItemType Directory }
+        if (!(Test-Path $testDir)) { New-Item $testDir -ItemType Directory }
         dotnet test -c $msbuild.configuration --filter tag=unit -r "$testDir"
     }
 }
@@ -25,7 +25,7 @@ Task "test:unit" {
 Task "test:integration" {
     exec { 
         $testDir = "$($ci.artifactsDir)/tests/integration"
-        if(!(Test-Path $testDir)) { New-Item $testDir -ItemType Directory }
+        if (!(Test-Path $testDir)) { New-Item $testDir -ItemType Directory }
         dotnet test -c $msbuild.configuration --filter tag=integration
     }
 }
@@ -39,7 +39,7 @@ Task "restore" {
 Task "clean:artifacts" {
     $items = Get-ChildItem $ci.artifactsDir -EA SilentlyContinue
     
-    if($items) {
+    if ($items) {
         $items | Remove-Item -Force -Recurse
     }
 }
@@ -57,14 +57,24 @@ Task "build" {
 }
 
 Task "setup" {
-    if(!(Test-Path $ci.artifactsDir)) {
+    if (!(Test-Path $ci.artifactsDir)) {
         New-Item -ItemType Directory $ci.artifactsDir
     }
 }
 
+Task "pack" {
+    exec {
+        dotnet pack --no-restore -c $msbuild.configuration`
+            /p:Analyzers=false 
+    }
+}
 
-Task "default" -depends "setup", "clean:artifacts", "restore",`
-     "clean", "build", "test:unit" 
+
+Task "default" -depends "setup", "clean:artifacts", "restore", `
+    "clean", "build", "test:unit" 
+
+Task "ci" -depends "setup", "clean:artifacts", "restore", "clean", `
+    "build", "test:unit", "test:integration"
 
 function Get-ConfigProp() {
     Param(
@@ -74,10 +84,9 @@ function Get-ConfigProp() {
         [String] $Default 
     )
 
-    foreach($item in $name)
-    {
+    foreach ($item in $name) {
         $value = Get-Item  Env:$Name -EA SilentlyContinue
-        if($value) { return $value }
+        if ($value) { return $value }
     }
     
     return $Default

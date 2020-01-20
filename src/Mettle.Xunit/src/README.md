@@ -1,6 +1,6 @@
 # ⚒ Mettle.Xunit ⚗
 
-Mettle is a custom Test Framework for Xunit.net that extends and overrides
+Mettle is a custom Test Framework Runner for Xunit.net that extends and overrides
 XUnit to enable:
 
 - DI for constructors and test methods.
@@ -10,20 +10,23 @@ XUnit to enable:
 
 ## Source Attribution
 
-The majority of the source code comes from Xunit, which is under the Apache 2.0.
-The source can be found on github at [github.com/xunit/xunit](https://github.com/xunit/xunit).
+The majority of the source code comes from Xunit, which is under the Apache 2.0
+license. The source can be found on github at [github.com/xunit/xunit](https://github.com/xunit/xunit).
 Without Xunit, this project would not exist.
 
 ## Rationale
 
-Besides being lazy, I wrote mettle to be more productive in writing tests. Xunit
-does provide DI through the use of IClassFixture, but its cumbersome to use
-and who want to create a ton of base classes for testing?
+Besides being lazy, I wrote ⚒ Mettle ⚗ to be more productive in writing tests. Xunit
+does provide DI through the use of IClassFixture, but interfaces and the limitation
+of injection for only the constructor of a test class is cumbersome to use.
+
+Who wants to write a ton of base classes for testing?
 
 .NET Core and the Microsoft.Extensions libraries have really underscored the
 use of DI in creating libraries and applications.  
 
-JUnit and other testing frameworks like Qunit.  XUnit
+JUnit and other testing frameworks like Qunit has have had some form of DI
+integration for a while.
 
 ## Custom Attributes
 
@@ -46,6 +49,12 @@ JUnit and other testing frameworks like Qunit.  XUnit
 - `[ServiceProviderFactory]` an attribute that can be applied at the assembly,
   class, or method level that specifies a type that implements `Mettle.IServiceProviderFactory`
 
+The use of traits enables you to filter on tests. Using the dotnet.exe commandline
+tool, you can filter tests by Xunit's traits.
+
+```powershell
+dotnet test --filter tag=unit
+```
 
 
 ## Sample Service Provider Implementation
@@ -54,15 +63,14 @@ Note: Any DI framework that implements `IServiceProvider` can replace
 the code in the `CreateProvider()` method.
 
 ```csharp
-[assembly:MettleXunitFramework]
-[assembly:ServiceProviderFactory(typeof(Mettle.SimpleServiceFactory))]
+[assembly:Mettle.MettleXunitFramework]
+[assembly:Mettle.ServiceProviderFactory(typeof(Tests.SimpleServiceFactory))]
 
 using System;
 using System.Collections.Concurrent;
-using Xunit.Abstractions;
-using Xunit.Sdk;
+using Mettle;
 
-namespace Mettle
+namespace Tests
 {
     public class SimpleServiceFactory : IServiceProviderFactory
     {
