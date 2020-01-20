@@ -8,5 +8,9 @@
         <Rule Id="SA1308" Action="None" /> <!-- disabled for static vars -->
         <Rule Id="SA1503" Action="None" /> <!-- brace yourself -->
         <Rule Id="SA1116" Action="None" /> <!-- indentation helps reading -->
+        <Rule Id="SA1402" Action="None" /> <!-- there can be multiple classes in a file -->
+    </Rules>
+    <Rules AnalyzerId="Microsoft.CodeAnalysis.FxCopAnalyzers" RuleNamespace="Microsoft.CodeAnalysis.FxCopAnalyzers">
+        <Rule Id="CA1303" Action="None" /> <!-- enable on a project by project basis -->
     </Rules>
 </RuleSet>

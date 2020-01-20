@@ -11,7 +11,7 @@ namespace Mettle
     {
         public ServiceProviderFactoryAttribute(Type type)
         {
-           this.FactoryType = type;
+            this.FactoryType = type;
         }
 
         public Type FactoryType { get; set; }

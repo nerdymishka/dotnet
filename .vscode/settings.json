@@ -1,3 +1,10 @@
 {
-    "editor.rulers": [80, 120]
+    "editor.rulers": [
+        80,
+        120
+    ],
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true,
+    "csharp.format.enable": true,
+    "csharpextensions.reFormatAfterChange": true
 }

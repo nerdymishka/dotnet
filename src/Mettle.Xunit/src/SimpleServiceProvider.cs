@@ -13,8 +13,10 @@ namespace Mettle
         public SimpleServiceProvider()
         {
             this.factories.TryAdd(typeof(IAssert), (s) => { return AssertImpl.Current; });
-            this.factories.TryAdd(typeof(ITestOutputHelper), (s) => {
-                return new TestOutputHelper(); });
+            this.factories.TryAdd(typeof(ITestOutputHelper), (s) =>
+            {
+                return new TestOutputHelper();
+            });
         }
 
         public void AddSingleton(Type type, object instance)
