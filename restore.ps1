@@ -64,11 +64,11 @@ foreach($key in $remotes.Keys) {
         git remote add $key "$($remote[$key])"
     }
 
-    if($key -eq "origin" -or $key -eq "gitlab") {
+    if($key -eq "origin") {
         continue 
     }
 
-    git remote set-url origin --push -add "$($remote[$key])"
+    git remote set-url origin --push --add "$($remote[$key])"
 }
 
 Update-Environment
