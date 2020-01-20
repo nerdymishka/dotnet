@@ -12,6 +12,12 @@ An assortment of .NET libraries migrated from previous repositories
 
 - [Project Structure](docs/project_structure.md)
 
+## Remotes
+
+- [gitlab](https://gitlab.com/nerdymishka/dotnet.git)
+- [github](https://github.com/nerdymishka/dotnet.git)
+- [Azure DevOps](https://dev.azure.com/nerdymishka/dotnet/_git/dotnet")
+
 ## Original Repositories
 
 - [archive](https://gitlab.com/nerdymishka/archive)
