@@ -25,8 +25,8 @@ Who wants to write a ton of base classes for testing?
 .NET Core and the Microsoft.Extensions libraries have really underscored the
 use of DI in creating libraries and applications.  
 
-JUnit and other testing frameworks like Qunit has have had some form of DI
-integration for a while.
+[JUnit][junit_di] and other testing frameworks like Qunit has have had DI
+integration for years. 
 
 ## Custom Attributes
 
@@ -167,3 +167,6 @@ namespace Tests
 [Main README](../../../README.md)
 
 [LICENSE](../../../LICENSE)
+
+
+[junit_di]: https://dzone.com/articles/junit-5-injection-enabled-tests

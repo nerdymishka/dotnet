@@ -63,7 +63,7 @@ Task "setup" {
 }
 
 Task "pack" {
-    exec {
+    exec { n
         dotnet pack --no-restore -c $msbuild.configuration`
             /p:Analyzers=false 
     }

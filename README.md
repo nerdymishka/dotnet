@@ -4,7 +4,7 @@ An assortment of .NET libraries migrated from previous repositories
 
 ## Projects
 
-- [Mettle.XUnit](src/Mettle.Xunit/src/README.md) - XUnit extensions that enable
+- [Mettle.XUnit](src/Mettle.Xunit/src/README.md) - XUnit extension that enables
   DI for test methods and test class constructors.
 
 ### Extensions
