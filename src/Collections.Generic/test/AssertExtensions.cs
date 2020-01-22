@@ -8,7 +8,7 @@ namespace Tests
     {
         public static IAssert Check(this IAssert assert)
         {
-            if (object.ReferenceEquals(assert, null))
+            if (assert is null)
                 throw new System.ArgumentNullException(nameof(assert));
 
             return assert;

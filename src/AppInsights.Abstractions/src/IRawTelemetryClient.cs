@@ -15,7 +15,7 @@ namespace NerdyMishka.Extensions.AppInsights.Abstractions
         /// <summary>
         /// Send an exception.
         /// </summary>
-        /// <param name="telemetry">The exception telemetry.</param>
+        /// <param name="exceptionTelemetry">The exception telemetry.</param>
         void TrackException(ExceptionTelemetryRecord exceptionTelemetry);
 
         /// <summary>
@@ -28,6 +28,6 @@ namespace NerdyMishka.Extensions.AppInsights.Abstractions
         /// Send a trace.
         /// </summary>
         /// <param name="traceTelemetry">The trace record.</param>
-        void TrackTrack(TraceTelemetryRecord traceTelemetry);
+        void TrackTrace(TraceTelemetryRecord traceTelemetry);
     }
 }

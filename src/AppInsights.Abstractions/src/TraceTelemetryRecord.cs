@@ -8,7 +8,8 @@ namespace NerdyMishka.Extensions.AppInsights.Abstractions
     public class TraceTelemetryRecord : CommonRecord
     {
         /// <summary>
-        /// Initializes a new instance of <see cref="TraceTelemetryRecord"/>.
+        /// Initializes a new instance of the  <see cref="TraceTelemetryRecord"/>
+        /// class.
         /// </summary>
         public TraceTelemetryRecord()
         {

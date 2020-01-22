@@ -11,7 +11,7 @@ namespace NerdyMishka.Util.Arrays
         /// Clears the values of the array.
         /// </summary>
         /// <param name="array">The array to perform the clear operation against.</param>
-        /// <param name="index">The start index. Defaults to 0</param>
+        /// <param name="index">The start index. Defaults to 0.</param>
         /// <param name="length">The number of items to clear.</param>
         /// <typeparam name="T">The item type in the array.</typeparam>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -36,7 +36,7 @@ namespace NerdyMishka.Util.Arrays
         /// <param name="array">The array to be resized.</param>
         /// <param name="length">The size of the new array.</param>
         /// <typeparam name="T">The type of the item.</typeparam>
-        /// <returns>A new array with the given <paramref name="length" /></returns>
+        /// <returns>A new array with the given <paramref name="length" />.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static T[] Resize<T>(this T[] array, int length)
         {
@@ -56,11 +56,14 @@ namespace NerdyMishka.Util.Arrays
         /// Copies the current array into a larger array.
         /// </summary>
         /// <param name="array">The array to copy.</param>
-        /// <param name="growthRate">The number of items more than the current length.</param>
+        /// <param name="growthSize">The number of items more than the current length.</param>
         /// <typeparam name="T">The type of items in the array.</typeparam>
-        /// <returns></returns>
+        /// <returns>A resized array.</returns>
         public static T[] Grow<T>(this T[] array, int growthSize = 1)
         {
+            if (array is null)
+                throw new ArgumentNullException(nameof(array));
+
             return Resize(array, array.Length + growthSize);
         }
 
@@ -73,6 +76,9 @@ namespace NerdyMishka.Util.Arrays
         /// <returns>A larger copy of the given array.</returns>
         public static T[] GrowBy<T>(this T[] array, int blockSize = 16)
         {
+            if (array is null)
+                throw new ArgumentNullException(nameof(array));
+
             return GrowBy(array, array.Length, blockSize);
         }
 
@@ -98,7 +104,7 @@ namespace NerdyMishka.Util.Arrays
 
             int blocks = array.Length / blockSize;
             int size = blocks * blockSize;
-            if ((size) <= length)
+            if (size <= length)
             {
                 while (size < length)
                 {
@@ -111,15 +117,18 @@ namespace NerdyMishka.Util.Arrays
         }
 
         /// <summary>
-        /// Creates a smaller copy of the given array. 
+        /// Creates a smaller copy of the given array.
         /// </summary>
         /// <param name="array">The array to copy.</param>
         /// <param name="shrinkRate">The number of items less than the current length.</param>
         /// <typeparam name="T">The type of items in the array.</typeparam>
-        /// <returns>The smaller array</returns>
+        /// <returns>The smaller array.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static T[] Shrink<T>(this T[] array, int shrinkRate = 1)
         {
+            if (array is null)
+                throw new ArgumentNullException(nameof(array));
+
             return Resize(array, array.Length - shrinkRate);
         }
 
@@ -132,6 +141,9 @@ namespace NerdyMishka.Util.Arrays
         /// <returns>A larger copy of the given array.</returns>
         public static T[] ShrinkBy<T>(this T[] array, int blockSize = 16)
         {
+            if (array is null)
+                throw new ArgumentNullException(nameof(array));
+
             return ShrinkBy(array, array.Length, blockSize);
         }
 
@@ -157,7 +169,7 @@ namespace NerdyMishka.Util.Arrays
 
             int blocks = array.Length / blockSize;
             int size = blocks * blockSize;
-            if ((size) >= length)
+            if (size >= length)
             {
                 while (size > length)
                 {

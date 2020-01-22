@@ -3,7 +3,7 @@ using System;
 namespace NerdyMishka.Extensions.AppInsights.Abstractions
 {
     /// <summary>
-    /// Contract for <see cref="ITelemetryRecord">s that support properties.
+    /// Contract for the telemetry record that supports properties.
     /// </summary>
     public interface ITelemetryRecord
     {

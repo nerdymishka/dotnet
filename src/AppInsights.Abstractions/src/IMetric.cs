@@ -1,7 +1,7 @@
 namespace NerdyMishka.Extensions.AppInsights.Abstractions
 {
     /// <summary>
-    /// Interface that represents the Metric object in Application Insights
+    /// Interface that represents the Metric object in Application Insights.
     /// </summary>
     public interface IMetric
     {
@@ -12,10 +12,7 @@ namespace NerdyMishka.Extensions.AppInsights.Abstractions
         /// aggregation period.
         /// </summary>
         /// <param name="metricValue">The value to aggregate.</param>
-        /// <returns><c>True</c> if the metric is added to the
-        /// <c>MetricSeries</c>; otherwise, <c>False</c>
-        /// </returns>
-        bool TrackValue(double metricValue);
+        void TrackValue(double metricValue);
 
         /// <summary>
         /// Tracks the given value.
@@ -24,10 +21,9 @@ namespace NerdyMishka.Extensions.AppInsights.Abstractions
         /// aggregation period.
         /// </summary>
         /// <param name="metricValue">The value to aggregate.</param>
-        /// <param name="dimension1">The value of the 1st dimension</param>
-        /// <param name="dimension1">The value of the 2nd dimension</param>
+        /// <param name="dimension1">The value of the 1st dimension.</param>
         /// <returns><c>True</c> if the metric is added to the
-        /// <c>MetricSeries</c>; otherwise, <c>False</c>
+        /// <c>MetricSeries</c>; otherwise, <c>False</c>.
         /// </returns>
         bool TrackValue(double metricValue, string dimension1);
 
@@ -38,10 +34,10 @@ namespace NerdyMishka.Extensions.AppInsights.Abstractions
         /// aggregation period.
         /// </summary>
         /// <param name="metricValue">The value to aggregate.</param>
-        /// <param name="dimension1">The value of the 1st dimension</param>
-        /// <param name="dimension1">The value of the 2nd dimension</param>
+        /// <param name="dimension1">The value of the 1st dimension.</param>
+        /// <param name="dimension2">The value of the 2nd dimension.</param>
         /// <returns><c>True</c> if the metric is added to the
-        /// <c>MetricSeries</c>; otherwise, <c>False</c>
+        /// <c>MetricSeries</c>; otherwise, <c>False</c>.
         /// </returns>
         bool TrackValue(double metricValue, string dimension1, string dimension2);
     }

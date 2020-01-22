@@ -6,17 +6,18 @@ namespace NerdyMishka.Extensions.AppInsights.Abstractions
     public class EventTelemetryRecord : CommonRecord
     {
         /// <summary>
-        /// Initializes a new instance of <see cref="EventTelemetryRecord"/>.
+        /// Initializes a new instance of the <see cref="EventTelemetryRecord"/>
+        /// class.
         /// </summary>
         public EventTelemetryRecord()
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="EventTelemetryRecord"/>.
+        /// Initializes a new instance of the <see cref="EventTelemetryRecord"/>
+        /// class.
         /// </summary>
-        /// <param name="name">The name of the event</param>
-        /// <returns></returns>
+        /// <param name="name">The name of the event.</param>
         public EventTelemetryRecord(string name)
             : this()
         {

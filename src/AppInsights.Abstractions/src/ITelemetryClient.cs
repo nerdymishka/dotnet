@@ -23,7 +23,7 @@ namespace NerdyMishka.Extensions.AppInsights.Abstractions
         /// The identify (name) of the metric. The <c>DefaultMetricNamespace</c>
         /// will be used.
         /// </param>
-        /// <returns>A Metric with the given Id and dimensions</returns>
+        /// <returns>A Metric with the given Id and dimensions.</returns>
         IMetric GetMetric(string metricId);
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace NerdyMishka.Extensions.AppInsights.Abstractions
         /// <param name="dimension1">
         /// The name of the 1st dimension.
         /// </param>
-        /// <returns>A Metric with the given Id and dimensions</returns>
+        /// <returns>A Metric with the given Id and dimensions.</returns>
         IMetric GetMetric(string metricId, string dimension1);
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace NerdyMishka.Extensions.AppInsights.Abstractions
         /// <param name="dimension2">
         /// The name of the 2nd dimension.
         /// </param>
-        /// <returns>A Metric with the given Id and dimensions</returns>
+        /// <returns>A Metric with the given Id and dimensions.</returns>
         IMetric GetMetric(string metricId, string dimension1, string dimension2);
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace NerdyMishka.Extensions.AppInsights.Abstractions
         /// <param name="dimension3">
         /// The name of the 3rd dimension.
         /// </param>
-        /// <returns>A Metric with the given Id and dimensions</returns>
+        /// <returns>A Metric with the given Id and dimensions.</returns>
         IMetric GetMetric(string metricId, string dimension1, string dimension2, string dimension3);
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace NerdyMishka.Extensions.AppInsights.Abstractions
         /// <param name="dimension4">
         /// The name of the 4th dimension.
         /// </param>
-        /// <returns>A Metric with the given Id and dimensions</returns>
+        /// <returns>A Metric with the given Id and dimensions.</returns>
         IMetric GetMetric(string metricId, string dimension1, string dimension2, string dimension3, string dimension4);
 
         /// <summary>
@@ -116,14 +116,14 @@ namespace NerdyMishka.Extensions.AppInsights.Abstractions
         /// The availabilty test record submission timestamp.
         /// </param>
         /// <param name="duration">The avaiability test duration.</param>
-        /// <param name="runLocation">Name of the location the availability test</param>
+        /// <param name="runLocation">Name of the location the availability test.</param>
         /// <param name="success">
-        /// <c>True</c> when the test succeeds; Otherwise, <c>false</c>
+        /// <c>True</c> when the test succeeds; Otherwise, <c>false</c>.
         /// </param>
         /// <param name="message">Error message for test failures.</param>
         /// <param name="properties">
         /// Named string values you can use to classify and search for this
-        /// availability telemetry
+        /// availability telemetry.
         /// </param>
         /// <param name="metrics">
         /// Metric values associated with this availability telemetry.
@@ -226,12 +226,10 @@ namespace NerdyMishka.Extensions.AppInsights.Abstractions
         /// <param name="metrics">
         /// Metric values associated with this event.
         /// </param>
-        /// <param name="timeStamp">The timestamp of the event.</param>
         void TrackEvent(
             string eventName,
             IDictionary<string, string> properties = null,
-            IDictionary<string, double> metrics = null,
-            DateTimeOffset? timeStamp = null);
+            IDictionary<string, double> metrics = null);
 
         /// <summary>
         /// Sends an exception records.
@@ -244,7 +242,6 @@ namespace NerdyMishka.Extensions.AppInsights.Abstractions
         /// <param name="metrics">
         /// Metric values associated with this exception.
         /// </param>
-        /// <returns></returns>
         void TrackException(
             Exception exception,
             IDictionary<string, string> properties = null,
