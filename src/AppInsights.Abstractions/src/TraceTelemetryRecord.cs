@@ -16,7 +16,8 @@ namespace NerdyMishka.Extensions.AppInsights.Abstractions
         }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="TraceTelemetryRecord"/>.
+        /// Initializes a new instance of the <see cref="TraceTelemetryRecord"/>
+        /// class.
         /// </summary>
         /// <param name="message">The trace message.</param>
         public TraceTelemetryRecord(string message)
@@ -25,7 +26,8 @@ namespace NerdyMishka.Extensions.AppInsights.Abstractions
         }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="TraceTelemetryRecord"/>.
+        /// Initializes a new instance of the <see cref="TraceTelemetryRecord"/>
+        /// class.
         /// </summary>
         /// <param name="message">The trace message.</param>
         /// <param name="severityLevel">The severity level.</param>

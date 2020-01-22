@@ -5,30 +5,30 @@ using System.Text;
 using Microsoft.Extensions.Logging;
 using NerdyMishka.Extensions.AppInsights.Abstractions;
 
-namespace NerdyMishka.Extensions.Logging.AppInsights
+namespace NerdyMishka.Extensions.Logging.AppInsights.Abstractions
 {
     /// <summary>
     /// Application insights logger implementation for <see cref="ILogger"/>.
     /// </summary>
     /// <seealso cref="ILogger" />
-    public class AppInsightsLogger : ILogger
+    public class TelemetryClientLogger : ILogger
     {
         private readonly string categoryName;
 
         private readonly IRawTelemetryClient telemetryClient;
 
-        private readonly AppInsightsLoggerOptions applicationInsightsLoggerOptions;
+        private readonly TelemetryClientLoggerOptions applicationInsightsLoggerOptions;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AppInsightsLogger"/> class.
+        /// Initializes a new instance of the <see cref="TelemetryClientLogger"/> class.
         /// </summary>
         /// <param name="categoryName">The category name.</param>
         /// <param name="telemetryClient">The telemetry client.</param>
         /// <param name="applicationInsightsLoggerOptions">The logger options.</param>
-        public AppInsightsLogger(
+        public TelemetryClientLogger(
             string categoryName,
             IRawTelemetryClient telemetryClient,
-            AppInsightsLoggerOptions applicationInsightsLoggerOptions)
+            TelemetryClientLoggerOptions applicationInsightsLoggerOptions)
         {
             this.categoryName = categoryName;
             this.telemetryClient = telemetryClient;
@@ -135,16 +135,16 @@ namespace NerdyMishka.Extensions.Logging.AppInsights
         private void PopulateTelemetry<TState>(ISupportPropertiesRecord telemetryItem, TState state, EventId eventId)
         {
             IDictionary<string, string> dict = telemetryItem.Properties;
-            dict["CategoryName"] = this.categoryName;
+            dict["categoryName"] = this.categoryName;
 
             if (eventId.Id != 0)
             {
-                dict["EventId"] = eventId.Id.ToString(CultureInfo.InvariantCulture);
+                dict["eventId"] = eventId.Id.ToString(CultureInfo.InvariantCulture);
             }
 
             if (!string.IsNullOrEmpty(eventId.Name))
             {
-                dict["EventName"] = eventId.Name;
+                dict["eventName"] = eventId.Name;
             }
 
             if (this.applicationInsightsLoggerOptions.IncludeScopes)
@@ -182,7 +182,7 @@ namespace NerdyMishka.Extensions.Logging.AppInsights
 
                     if (stringBuilder.Length > 0)
                     {
-                        dict["Scope"] = stringBuilder.ToString();
+                        dict["scope"] = stringBuilder.ToString();
                     }
                 }
             }

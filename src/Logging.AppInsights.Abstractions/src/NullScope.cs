@@ -1,6 +1,7 @@
 using System;
+#pragma warning disable CA1063
 
-namespace NerdyMishka.Extensions.Logging.AppInsights
+namespace NerdyMishka.Extensions.Logging.AppInsights.Abstractions
 {
     /// <summary>
     /// An empty scope without any logic.
@@ -13,13 +14,12 @@ namespace NerdyMishka.Extensions.Logging.AppInsights
 
         public static NullScope Instance { get; } = new NullScope();
 
-#pragma warning disable CA1063 // Implement IDisposable Correctly - Nothing at all to dispose.
         /// <summary>
         /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
         /// </summary>
         public void Dispose()
-#pragma warning restore CA1063 // Implement IDisposable Correctly - Nothing at all to dispose.
         {
         }
     }
 }
+#pragma warning restore CA1063

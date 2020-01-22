@@ -1,6 +1,6 @@
-namespace NerdyMishka.Extensions.Logging.AppInsights
+namespace NerdyMishka.Extensions.Logging.AppInsights.Abstractions
 {
-    public class AppInsightsLoggerOptions
+    public class TelemetryClientLoggerOptions
     {
         public string InstrumentKey { get; set; }
 

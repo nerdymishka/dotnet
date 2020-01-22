@@ -98,7 +98,12 @@ namespace NerdyMishka.Extensions.AppInsights.Abstractions
         /// The name of the 4th dimension.
         /// </param>
         /// <returns>A Metric with the given Id and dimensions.</returns>
-        IMetric GetMetric(string metricId, string dimension1, string dimension2, string dimension3, string dimension4);
+        IMetric GetMetric(
+            string metricId,
+            string dimension1,
+            string dimension2,
+            string dimension3,
+            string dimension4);
 
         /// <summary>
         /// Gets the enablement status of the client.
