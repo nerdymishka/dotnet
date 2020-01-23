@@ -9,7 +9,16 @@ An assortment of .NET libraries migrated from previous repositories
 
 ### Extensions
 
-- [Extensions.File.Abstractions](src/Extensions/File.Abstractions/src/README.md)
+#### Logging
+
+- [Extensions.AppInsights.Abstractions](src/AppInsights.Abstractions/src/README.md)
+- [Extensions.AppInsights.Iml](src/AppInsights.Impl/src/README.md)
+- [Extensions.Logging.AppInsights.Abstractions](src/Logging.AppInsights.Abstractions/src/README.md)
+- [Extensions.Logging.AppInsights](src/Logging.AppInsights/README.md)
+
+#### FileSystem
+
+- [Extensions.FileSystem.Abstractions](src/FileSystem.Abstractions/src/README.md)
 
 ## Documentation
 
