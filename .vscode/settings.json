@@ -6,5 +6,8 @@
     "editor.formatOnSave": true,
     "editor.formatOnPaste": true,
     "csharp.format.enable": true,
-    "csharpextensions.reFormatAfterChange": true
+    "csharpextensions.reFormatAfterChange": true,
+    "cSpell.words": [
+        "Mishka"
+    ]
 }
