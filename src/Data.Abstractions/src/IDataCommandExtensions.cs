@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Globalization;
 using System.Text;
@@ -28,25 +29,47 @@ namespace NerdyMishka.Data
         public static IDataCommand ApplyConfiguration(
             this IDataCommandBuilder builder)
         {
-            var cmd = builder.Command;
-            var query = builder.Configuration.Query;
-            var prefix = builder.Configuration.ParameterPrefix;
+            Check.NotNull(nameof(builder), builder);
+            Check.NotNull(nameof(builder.Command), builder.Command);
+            Check.NotNull(nameof(builder.Configuration), builder.Configuration);
+            Check.NotNull(nameof(builder.Configuration.Query), builder.Configuration.Query);
 
+            var cfg = builder.Configuration;
             switch (builder.Configuration.SetType)
             {
                 case ParameterSetType.Array:
-                    return cmd.ApplyParameters(
-                        query,
-                        prefix,
-                        builder.Configuration.ParameterArray);
+                    return builder.Command.ApplyParameters(
+                        cfg.Query,
+                        cfg.ParameterArray,
+                        cfg.ParameterPrefix);
+
+                case ParameterSetType.DbParameters:
+                    return builder.Command.ApplyParameters(
+                        cfg.Query,
+                        cfg.DbParameters,
+                        cfg.ParameterPrefix);
+
+                case ParameterSetType.Hashtable:
+                    return builder.Command.ApplyParameters(
+                            cfg.Query,
+                            cfg.Hastable,
+                            cfg.ParameterPrefix);
+
+                case ParameterSetType.KeyValue:
+                    return builder.Command.ApplyParameters(
+                        cfg.Query,
+                        cfg.DbParameters,
+                        cfg.ParameterPrefix);
             }
+
+            throw new NotSupportedException(ParameterSetType.None.ToString());
         }
 
         public static IDataCommand ApplyParameters(
             this IDataCommand cmd,
             StringBuilder query,
-            char parameterPrefix,
             IList parameters,
+            char parameterPrefix = '@',
             string placeholder = "/?")
         {
             if (cmd is null)
@@ -77,12 +100,57 @@ namespace NerdyMishka.Data
             return cmd;
         }
 
+        internal static IDataCommand ApplyParameters(
+                    IDataCommand cmd,
+                    StringBuilder query,
+                    IEnumerable<KeyValuePair<string, object>> parameters,
+                    char parameterPrefix = '@')
+        {
+            if (cmd is null)
+                throw new ArgumentNullException(nameof(cmd));
+
+            if (query is null)
+                throw new ArgumentNullException(nameof(query));
+
+            cmd.Type = System.Data.CommandType.Text;
+
+            if (parameters != null)
+            {
+                bool? replace = null;
+
+                foreach (var set in parameters)
+                {
+                    var key = set.Key;
+                    var parameterName = key;
+                    var value = set.Value;
+                    if (!replace.HasValue)
+                    {
+                        var prefix = key[0];
+                        replace = char.IsLetterOrDigit(prefix) || prefix != parameterPrefix;
+                    }
+
+                    if (!replace.Value)
+                    {
+                        cmd.AddParameter(key, value);
+                        continue;
+                    }
+
+                    // TODO: do an insert
+                    parameterName = parameterPrefix + key;
+                    query.Replace(key, parameterName);
+                    cmd.AddParameter(parameterName, value);
+                }
+            }
+
+            cmd.Text = query.ToString();
+            return cmd;
+        }
 
         public static IDataCommand ApplyParameters(
             this IDataCommand cmd,
             StringBuilder query,
-            char parameterPrefix,
-            IList<IDbDataParameter> parameters)
+            IEnumerable<IDbDataParameter> parameters,
+            char parameterPrefix = '@')
         {
             if (cmd is null)
                 throw new ArgumentNullException(nameof(cmd));
@@ -109,6 +177,51 @@ namespace NerdyMishka.Data
 
             cmd.Text = query.ToString();
             cmd.Type = CommandType.Text;
+            return cmd;
+        }
+
+        public static IDataCommand ApplyParameters(
+            this IDataCommand cmd,
+            StringBuilder query,
+            IDictionary parameters,
+            char parameterPrefix = '@')
+        {
+            if (cmd is null)
+                throw new ArgumentNullException(nameof(cmd));
+
+            if (query is null)
+                throw new ArgumentNullException(nameof(query));
+
+            cmd.Type = System.Data.CommandType.Text;
+
+            if (parameters != null && parameters.Count > 0)
+            {
+                bool? replace = null;
+
+                foreach (string key in parameters.Keys)
+                {
+                    var parameterName = key;
+                    var value = parameters[key];
+                    if (!replace.HasValue)
+                    {
+                        var prefix = key[0];
+                        replace = char.IsLetterOrDigit(prefix) || prefix != parameterPrefix;
+                    }
+
+                    if (!replace.Value)
+                    {
+                        cmd.AddParameter(key, value);
+                        continue;
+                    }
+
+                    // TODO: do an insert
+                    parameterName = parameterPrefix + key;
+                    query.Replace(key, parameterName);
+                    cmd.AddParameter(parameterName, value);
+                }
+            }
+
+            cmd.Text = query.ToString();
             return cmd;
         }
     }

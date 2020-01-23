@@ -4,13 +4,20 @@
         <Rule Id="SA1633" Action="None" />
         <Rule Id="SA1200" Action="None" />
         <Rule Id="SA0001" Action="None" />
-        <Rule Id="SA1600" Action="None" /> <!-- enable on a project by project basis -->
-        <Rule Id="SA1308" Action="None" /> <!-- disabled for static vars -->
-        <Rule Id="SA1503" Action="None" /> <!-- brace yourself -->
-        <Rule Id="SA1116" Action="None" /> <!-- indentation helps reading -->
-        <Rule Id="SA1402" Action="None" /> <!-- there can be multiple classes in a file -->
+        <Rule Id="SA1600" Action="None" />
+        <!-- enable on a project by project basis -->
+        <Rule Id="SA1308" Action="None" />
+        <!-- disabled for static vars -->
+        <Rule Id="SA1503" Action="None" />
+        <!-- brace yourself -->
+        <Rule Id="SA1116" Action="None" />
+        <!-- indentation helps reading -->
+        <Rule Id="SA1402" Action="None" />
+        <!-- there can be multiple classes in a file -->
+        <Rule Id="SA1519" Action="None" />
     </Rules>
     <Rules AnalyzerId="Microsoft.CodeAnalysis.FxCopAnalyzers" RuleNamespace="Microsoft.CodeAnalysis.FxCopAnalyzers">
-        <Rule Id="CA1303" Action="None" /> <!-- enable on a project by project basis -->
+        <Rule Id="CA1303" Action="None" />
+        <!-- enable on a project by project basis -->
     </Rules>
 </RuleSet>

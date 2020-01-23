@@ -1,4 +1,4 @@
-
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Threading;
@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NerdyMishka.Data
 {
-    public interface IDataCommand
+    public interface IDataCommand : IDisposable
     {
         IDataConnectionActions Connection { get; }
 
@@ -16,7 +16,7 @@ namespace NerdyMishka.Data
 
         string Text { get; set; }
 
-        CommandBehavior Behavior { get; }
+        CommandBehavior? Behavior { get; }
 
         CommandType Type { get; set; }
 
@@ -31,18 +31,16 @@ namespace NerdyMishka.Data
 
         int Execute();
 
-        Task<int> ExecuteAsync();
-
         Task<int> ExecuteAsync(CancellationToken cancellationToken = default);
 
         object ExecuteScalar();
 
         Task<object> ExecuteScalarAsync(CancellationToken cancellationToken = default);
 
-        IDataReader ExecuteReader(CommandBehavior behavior = default);
+        IDataReader ExecuteReader(CommandBehavior? behavior = default);
 
         Task<IDataReader> ExecuteReaderAsync(
-            CommandBehavior behavior = default,
+            CommandBehavior? behavior = default,
             CancellationToken cancellationToken = default);
 
         void Prepare();

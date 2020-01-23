@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="../../Primitives/src/*.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Include="../../Common/ArgumentNullOrWhiteSpaceException.cs" />
     <Compile Include="../../Common/ArgumentNullOrEmptyException.cs" />
     <Compile Include="../../Common/Check.cs" />
@@ -12,7 +16,6 @@
 
   <ItemGroup>
     <PackageReference Include="System.Memory" Version= "4.5.3" />
-
   </ItemGroup>
 
 </Project>

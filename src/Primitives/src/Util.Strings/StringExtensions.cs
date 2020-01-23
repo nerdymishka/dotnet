@@ -6,10 +6,6 @@ namespace NerdyMishka.Util.Strings
 {
     public static class StringExtensions
     {
-        public static ReadOnlySpan<char> AsReadOnlySpan(this string instance)
-        {
-            return (ReadOnlySpan<char>)instance;
-        }
 
         public static bool Equals(
             this string instance,
@@ -67,27 +63,18 @@ namespace NerdyMishka.Util.Strings
             if (instance is null)
                 throw new ArgumentNullException(nameof(instance));
 
-            return instance.Replace(oldValue, "");
-        }
-
-        public static string Strip(this string instance, char oldValue)
-        {
-            if (instance is null)
-                throw new ArgumentNullException(nameof(instance));
-
             return instance.Replace(oldValue, string.Empty);
         }
 
         public static string Strip(this string instance, params string[] oldValues)
         {
-            if (instance is null)
+            if (instance == null)
                 throw new ArgumentNullException(nameof(instance));
 
-            stirng target = instance;
             foreach (var oldValue in oldValues)
-                target = target.Replace(oldValue, "");
+                instance = instance.Replace(oldValue, string.Empty);
 
-            return target;
+            return instance;
         }
     }
 }

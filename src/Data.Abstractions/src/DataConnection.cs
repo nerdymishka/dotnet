@@ -2,6 +2,7 @@
 
 using System;
 using System.Data;
+using System.Data.Common;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -9,96 +10,122 @@ namespace NerdyMishka.Data
 {
     public class DataConnection : IDataConnection
     {
-        public string Provider => throw new NotImplementedException();
+        private bool disposedValue = false;
 
-        public string ConnectionString { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        private bool autoClose = false;
 
-        public ConnectionState State => throw new NotImplementedException();
+        public string Provider => this.SqlDialect.Name;
 
-        public ISqlDialect SqlDialect => throw new NotImplementedException();
+        public string ConnectionString
+        {
+            get => this.InnerConnection.ConnectionString;
+            set => this.InnerConnection.ConnectionString = value;
+        }
 
-        protected internal IDbConnection InnerConnection { get; set; }
+        public ConnectionState State => this.InnerConnection.State;
+
+        public ISqlDialect SqlDialect { get; private set; }
+
+        protected internal DbConnection InnerConnection { get; set; }
+
+        public DataConnection(
+            IDbConnection connection,
+            ISqlDialect sqlDialect,
+            bool autoClose = false)
+        {
+            this.InnerConnection = (DbConnection)connection;
+            this.SqlDialect = sqlDialect;
+        }
 
         public IDataTransactionActions BeginTransaction(IsolationLevel level = 0)
         {
-            throw new NotImplementedException();
+            var transaction = this.InnerConnection.BeginTransaction(level);
+            return new DataTransaction(this, transaction, level, false);
         }
 
         public void Close()
         {
-            throw new NotImplementedException();
+            this.InnerConnection?.Close();
         }
 
         public IDataCommand CreateCommand(CommandBehavior behavior = CommandBehavior.Default)
         {
-            throw new NotImplementedException();
+            return null;
         }
 
         public void OnCompleted()
         {
-            throw new NotImplementedException();
+            if (this.autoClose)
+                this.Close();
         }
 
         public void OnError(Exception error)
         {
-            throw new NotImplementedException();
+            this.Close();
         }
 
-        public void OnNext(IDataCommandBuilder value)
+        public void OnNext(IDataCommandBuilder builder)
         {
-            throw new NotImplementedException();
+            if (builder is null)
+                throw new ArgumentNullException(nameof(builder));
+
+            if (builder.Configuration is null)
+                throw new NullReferenceException(nameof(builder.Configuration));
+
+            if (builder.Configuration.Query is null)
+                throw new NullReferenceException(nameof(builder.Configuration.Query));
+
+            if (this.State != ConnectionState.Open)
+            {
+                this.autoClose = true;
+                this.Open();
+            }
+
+            if (builder.Command == null)
+                builder.Command = this.CreateCommand();
+
+            builder.ApplyConfiguration();
         }
 
         public void Open()
         {
-            throw new NotImplementedException();
+            this.InnerConnection?.Open();
         }
 
         public Task OpenAsync()
         {
-            throw new NotImplementedException();
+            return this.InnerConnection?.OpenAsync();
         }
 
         public Task OpenAsync(CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return this.InnerConnection?.OpenAsync(cancellationToken);
         }
-
-        #region IDisposable Support
-        private bool disposedValue = false; // To detect redundant calls
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!disposedValue)
+            if (this.disposedValue)
+                return;
+
+            if (disposing)
             {
-                if (disposing)
-                {
-                    // TODO: dispose managed state (managed objects).
-                }
-
-                // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
-                // TODO: set large fields to null.
-
-                disposedValue = true;
+                this.SqlDialect = null;
             }
+
+            this.InnerConnection?.Dispose();
+            this.InnerConnection = null;
+            this.disposedValue = true;
         }
 
-        // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
-        // ~DataConnection()
-        // {
-        //   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
-        //   Dispose(false);
-        // }
-
-        // This code added to correctly implement the disposable pattern.
         public void Dispose()
         {
-            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
-            Dispose(true);
-            // TODO: uncomment the following line if the finalizer is overridden above.
-            // GC.SuppressFinalize(this);
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
         }
-        #endregion
 
+        ~DataConnection()
+        {
+            this.Dispose(false);
+        }
     }
 }

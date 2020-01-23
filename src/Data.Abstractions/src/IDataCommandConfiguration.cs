@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.Text;
 
 namespace NerdyMishka.Data
 {
@@ -19,7 +20,7 @@ namespace NerdyMishka.Data
 
         IList ParameterArray { get; }
 
-        string Query { get; set; }
+        StringBuilder Query { get; set; }
 
         CommandBehavior CommandBehavior { get; set; }
 

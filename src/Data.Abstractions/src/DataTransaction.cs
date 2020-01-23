@@ -9,14 +9,27 @@ namespace NerdyMishka.Data
     {
         private IDbTransaction transaction;
         private bool autoCommit = false;
-
         private IsolationLevel il;
 
         private DataConnection connection;
 
         public IDataConnection Connection => this.connection;
 
-        public ISqlDialect SqlDialect { get; internal protected set; }
+        public ISqlDialect SqlDialect => this.connection.SqlDialect;
+
+        protected internal DataTransaction(
+            DataConnection connection,
+            IDbTransaction transaction = null,
+            IsolationLevel? il = null,
+            bool autoCommit = false)
+        {
+            if (il.HasValue)
+                this.il = il.Value;
+
+            this.connection = connection;
+            this.transaction = transaction;
+            this.autoCommit = autoCommit;
+        }
 
         public void Commit()
         {
@@ -51,6 +64,12 @@ namespace NerdyMishka.Data
             if (builder is null)
                 throw new ArgumentNullException(nameof(builder));
 
+            if (builder.Configuration is null)
+                throw new NullReferenceException(nameof(builder.Configuration));
+
+            if (builder.Configuration.Query is null)
+                throw new NullReferenceException(nameof(builder.Configuration.Query));
+
             if (this.Connection.State != ConnectionState.Open)
             {
                 this.autoCommit = true;
@@ -70,7 +89,7 @@ namespace NerdyMishka.Data
             if (builder.Command == null)
                 builder.Command = this.CreateCommand();
 
-            var config = builder.Configuration;
+            builder.ApplyConfiguration();
         }
 
         public void Rollback()

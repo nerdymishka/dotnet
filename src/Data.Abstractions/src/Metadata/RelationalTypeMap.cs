@@ -12,43 +12,41 @@ namespace NerdyMishka.Data.MetaData
             public NullTypeMap(string storeType)
                 : base(storeType, typeof(object))
             {
-
             }
         }
 
         public readonly static RelationalTypeMap Null = new NullTypeMap("NULL");
 
         public RelationalTypeMap(
-            string sqlType,
-            Type clrType,
-            DbType? dbType = null,
-            int? size = null,
-            bool unicode = false
-        )
-        {
-            this.SqlType = sqlType;
-            this.ClrType = clrType;
-            this.DbType = dbType;
-        }
-
-        public RelationalTypeMap(
             string storeType,
             Type clrType,
             DbType? dbType = null,
+            bool unicode = false,
+            int? size = null,
             int? precision = null,
             int? scale = null)
-            : this(storeType, clrType, dbType, null, false)
-        {
 
+        {
+            this.SqlType = storeType;
+            this.ClrType = clrType;
+            if (dbType.HasValue)
+                this.DbType = dbType.Value;
+
+            this.Scale = scale;
+            this.Precision = precision;
+            this.Size = size;
+            this.IsUnicode = unicode;
         }
 
         public virtual int? Size { get; protected set; }
 
         public virtual int? Precision { get; protected set; }
 
-        public virtual bool? Scale { get; protected set; }
+        public virtual int? Scale { get; protected set; }
 
         public virtual bool IsNullable { get; protected set; }
+
+        public virtual bool IsUnicode { get; protected set; }
 
         public virtual Type ClrType { get; protected set; }
 
