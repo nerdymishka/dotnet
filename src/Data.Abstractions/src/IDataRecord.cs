@@ -1,6 +1,4 @@
 using System;
-using System.Data;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -23,12 +21,14 @@ namespace NerdyMishka.Data
         /// Gets the value for the item at the given index.
         /// </summary>
         /// <value>The value for the item at the given index.</value>
+        /// <param name="i">The column index.</param>
         object this[int i] { get; }
 
         /// <summary>
         /// Gets the value for the item with the given name.
         /// </summary>
         /// <value>The value for the item with the given name.</value>
+        /// <param name="name">The column name.</param>
         object this[string name] { get; }
 
         /// <summary>
@@ -62,7 +62,6 @@ namespace NerdyMishka.Data
         /// <see cref="DbNull" />.
         /// </summary>
         /// <param name="name">The name of the column.</param>
-        /// <param name="cancellationToken">The token to cancel the task.</param>
         /// <returns><c>True</c> if the value is <see cref="DbNull" />;
         /// Otherwise, <c>false</c>.</returns>
         bool IsDbNull(string name);
@@ -72,10 +71,8 @@ namespace NerdyMishka.Data
         /// <see cref="DbNull" />.
         /// </summary>
         /// <param name="name">The name of the column.</param>
-        /// <param name="cancellationToken">The token to cancel the task.</param>
         /// <returns><c>True</c> if the value is <see cref="DbNull" />;
         /// Otherwise, <c>false</c>.</returns>
-
         Task<bool> IsDbNullAsync(string name);
 
         /// <summary>
@@ -89,31 +86,31 @@ namespace NerdyMishka.Data
         Task<bool> IsDbNullAsync(string name, CancellationToken cancellationToken);
 
         /// <summary>
-        /// Gets a <see cref="System.Boolean"/> value by column index.
+        /// Gets a <see cref="bool"/> value by column index.
         /// </summary>
         /// <param name="ordinal">The column index.</param>
-        /// <returns>The <see cref="System.Boolean" /> value.</returns>
+        /// <returns>The <see cref="bool" /> value.</returns>
         bool GetBoolean(int ordinal);
 
         /// <summary>
-        /// Gets a <see cref="System.Boolean"/> value by column name.
+        /// Gets a <see cref="bool"/> value by column name.
         /// </summary>
         /// <param name="name">The column name.</param>
-        /// <returns>The <see cref="System.Boolean" /> value.</returns>
+        /// <returns>The <see cref="bool" /> value.</returns>
         bool GetBoolean(string name);
 
         /// <summary>
-        /// Gets a <see cref="System.Byte" /> value by column index.
+        /// Gets a <see cref="byte" /> value by column index.
         /// </summary>
         /// <param name="ordinal">The column index.</param>
-        /// <returns>The <see cref="System.Byte" /> value.</returns>
+        /// <returns>The <see cref="byte" /> value.</returns>
         byte GetByte(int ordinal);
 
         /// <summary>
-        /// Gets a <see cref="System.Byte" /> value by column name.
+        /// Gets a <see cref="byte" /> value by column name.
         /// </summary>
         /// <param name="name">The column name.</param>
-        /// <returns>The <see cref="System.Byte" /> value.</returns>
+        /// <returns>The <see cref="byte" /> value.</returns>
         byte GetByte(string name);
 
         /// <summary>
@@ -131,6 +128,7 @@ namespace NerdyMishka.Data
         /// Gets the bytes and reads them into the buffer.
         /// </summary>
         /// <param name="ordinal">The column index.</param>
+        /// <param name="buffer">The buffer to store read data.</param>
         /// <returns>The number of bytes read.</returns>
         long GetBytes(int ordinal, byte[] buffer);
 
@@ -149,6 +147,7 @@ namespace NerdyMishka.Data
         /// Gets the bytes and reads them into the buffer.
         /// </summary>
         /// <param name="name">The column name.</param>
+        /// <param name="buffer">The buffer to store read data.</param>
         /// <returns>The number of bytes read.</returns>
         long GetBytes(string name, byte[] buffer);
 

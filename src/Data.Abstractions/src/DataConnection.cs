@@ -48,9 +48,10 @@ namespace NerdyMishka.Data
             this.InnerConnection?.Close();
         }
 
-        public IDataCommand CreateCommand(CommandBehavior behavior = CommandBehavior.Default)
+        public IDataCommand CreateCommand(CommandBehavior? behavior = default)
         {
-            return null;
+            var cmd = this.InnerConnection.CreateCommand();
+            return new DataCommand(cmd, this.SqlDialect, behavior);
         }
 
         public void OnCompleted()

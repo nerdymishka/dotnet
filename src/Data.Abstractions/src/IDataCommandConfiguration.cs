@@ -8,11 +8,11 @@ namespace NerdyMishka.Data
 {
     public interface IDataCommandConfiguration
     {
-        ParameterSetType SetType { get; set; }
+        ParameterSetType SetType { get; }
 
-        IEnumerable<IDbDataParameter> DbParameters { get; set; }
+        IEnumerable<IDbDataParameter> DbParameters { get; }
 
-        IEnumerable<KeyValuePair<string, object>> Parameters { get; set; }
+        IEnumerable<KeyValuePair<string, object>> Parameters { get; }
 
         char ParameterPrefix { get; set; }
 
@@ -20,7 +20,15 @@ namespace NerdyMishka.Data
 
         IList ParameterArray { get; }
 
-        StringBuilder Query { get; set; }
+        void SetParameters(IList value);
+
+        void SetParameters(IDictionary value);
+
+        void SetParameters(IEnumerable<IDbDataParameter> value);
+
+        void SetParameters(IEnumerable<KeyValuePair<string, object>> value);
+
+        StringBuilder Query { get; }
 
         CommandBehavior CommandBehavior { get; set; }
 

@@ -36,7 +36,7 @@ namespace NerdyMishka.Data
             this.transaction.Commit();
         }
 
-        public IDataCommand CreateCommand(CommandBehavior behavior = CommandBehavior.Default)
+        public IDataCommand CreateCommand(CommandBehavior? behavior = CommandBehavior.Default)
         {
             var cmd = this.Connection.CreateCommand(behavior);
             cmd.Transaction = this;

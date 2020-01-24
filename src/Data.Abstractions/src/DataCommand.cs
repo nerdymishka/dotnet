@@ -16,17 +16,24 @@ namespace NerdyMishka.Data
         private DbParametersReadOnlyCollection parameters;
         private bool isDisposed = false;
 
-        public DataCommand(IDbCommand command)
+        public DataCommand(
+            IDbCommand command,
+            ISqlDialect sqlDialect,
+            CommandBehavior? behavior = null)
         {
             Check.NotNull(nameof(command), command);
+            this.SqlDialect = sqlDialect;
             this.parameters = new DbParametersReadOnlyCollection(command.Parameters);
             this.command = command;
             this.dbCommand = command as DbCommand;
+            this.Behavior = behavior;
         }
 
         public IDataConnectionActions Connection { get; set; }
 
         public IDataTransactionActions Transaction { get; set; }
+
+        public ISqlDialect SqlDialect { get; private set; }
 
         public IReadOnlyCollection<IDbDataParameter> Parameters
         {

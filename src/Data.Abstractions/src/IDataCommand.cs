@@ -20,6 +20,8 @@ namespace NerdyMishka.Data
 
         CommandType Type { get; set; }
 
+        ISqlDialect SqlDialect { get; }
+
         int Timeout { get; set; }
 
         TParameter CreateParameter<TParameter>()

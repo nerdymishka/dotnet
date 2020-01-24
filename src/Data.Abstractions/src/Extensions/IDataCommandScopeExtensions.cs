@@ -1,0 +1,306 @@
+
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Data;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace NerdyMishka.Data.Extensions
+{
+    public static class IDataCommandScopeExtensions
+    {
+
+        public static int Execute(
+           this IDataCommandScope scope,
+           string query,
+           IList parameters,
+           CommandBehavior behavior = CommandBehavior.Default)
+        {
+            return scope.Execute((builder) =>
+            {
+                builder.Command = scope.CreateCommand(behavior);
+                var cfg = builder.Configuration;
+                cfg.Query.Append(query);
+                cfg.SetParameters(parameters);
+            },
+            (builder) => builder.Command.Execute());
+        }
+
+        public static int ExecuteReader(
+            this IDataCommandScope scope,
+            ISqlBuilder sqlBuilder,
+            IDictionary parameters,
+            CommandBehavior behavior = CommandBehavior.Default)
+        {
+            return scope.Execute((builder) =>
+            {
+                builder.Command = scope.CreateCommand(behavior);
+                var cfg = builder.Configuration;
+                cfg.Query.Append(sqlBuilder.ToStringBuilder());
+                cfg.SetParameters(parameters);
+            },
+            (builder) => builder.Command.Execute());
+        }
+
+        public static int Execute(
+            this IDataCommandScope scope,
+            ISqlBuilder sqlBuilder,
+            IEnumerable<IDbDataParameter> parameters,
+            CommandBehavior behavior = CommandBehavior.Default)
+        {
+            return scope.Execute((builder) =>
+            {
+                builder.Command = scope.CreateCommand(behavior);
+                var cfg = builder.Configuration;
+                cfg.Query.Append(sqlBuilder.ToStringBuilder());
+                cfg.SetParameters(parameters);
+            },
+            (builder) => builder.Command.Execute());
+        }
+
+        public static int Execute(
+            this IDataCommandScope scope,
+            ISqlBuilder sqlBuilder,
+            IEnumerable<KeyValuePair<string, object>> parameters,
+            CommandBehavior behavior = CommandBehavior.Default)
+        {
+            return scope.Execute((builder) =>
+            {
+                builder.Command = scope.CreateCommand(behavior);
+                var cfg = builder.Configuration;
+                cfg.Query.Append(sqlBuilder.ToStringBuilder());
+                cfg.SetParameters(parameters);
+            },
+            (builder) => builder.Command.Execute());
+        }
+
+        public static IDataReader ExecuteReader(
+            this IDataCommandScope scope,
+            string query,
+            IList parameters)
+        {
+            return scope.Execute((builder) =>
+            {
+                builder.Command = scope.CreateCommand(CommandBehavior.CloseConnection);
+                var cfg = builder.Configuration;
+                cfg.Query.Append(query);
+                cfg.SetParameters(parameters);
+            },
+            (builder) => builder.Command.ExecuteReader());
+        }
+
+        public static IDataReader ExecuteReader(
+            this IDataCommandScope scope,
+            ISqlBuilder sqlBuilder,
+            IEnumerable<IDbDataParameter> parameters)
+        {
+            return scope.Execute((builder) =>
+            {
+                builder.Command = scope.CreateCommand(CommandBehavior.CloseConnection);
+                var cfg = builder.Configuration;
+                cfg.Query.Append(sqlBuilder.ToStringBuilder());
+                cfg.SetParameters(parameters);
+            },
+            (builder) => builder.Command.ExecuteReader());
+        }
+
+        public static IDataReader ExecuteReader(
+            this IDataCommandScope scope,
+            ISqlBuilder sqlBuilder,
+            IEnumerable<KeyValuePair<string, object>> parameters)
+        {
+            return scope.Execute((builder) =>
+            {
+                builder.Command = scope.CreateCommand(CommandBehavior.CloseConnection);
+                var cfg = builder.Configuration;
+                cfg.Query.Append(sqlBuilder.ToStringBuilder());
+                cfg.SetParameters(parameters);
+            },
+            (builder) => builder.Command.ExecuteReader());
+        }
+
+
+
+
+
+        public static IDataReader ExecuteReader(
+            this IDataCommandScope scope,
+            ISqlBuilder sqlBuilder,
+            IList parameters)
+        {
+            return scope.Execute((builder) =>
+            {
+                builder.Command = scope.CreateCommand(CommandBehavior.CloseConnection);
+                var cfg = builder.Configuration;
+                cfg.Query.Append(sqlBuilder.ToStringBuilder());
+                cfg.SetParameters(parameters);
+            },
+            (builder) => builder.Command.ExecuteReader());
+        }
+
+
+        public static Task<IDataReader> ExecuteReaderAsync(
+           this IDataCommandScope scope,
+           string query,
+           IList parameters,
+           CancellationToken cancellationToken = default)
+        {
+            return scope.ExecuteAsync((builder) =>
+            {
+                builder.Command = scope.CreateCommand(CommandBehavior.CloseConnection);
+                var cfg = builder.Configuration;
+                cfg.Query.Append(query);
+                cfg.SetParameters(parameters);
+            },
+            (builder) =>
+            {
+                return builder.Command.ExecuteReaderAsync(
+                    CommandBehavior.CloseConnection,
+                    cancellationToken);
+            });
+        }
+
+        public static Task<IDataReader> ExecuteReaderAsync(
+           this IDataCommandScope scope,
+           ISqlBuilder sqlBuilder,
+           IList parameters,
+           CancellationToken cancellationToken = default)
+        {
+            return scope.ExecuteAsync((builder) =>
+            {
+                builder.Command = scope.CreateCommand(CommandBehavior.CloseConnection);
+                var cfg = builder.Configuration;
+                cfg.Query.Append(sqlBuilder.ToStringBuilder());
+                cfg.SetParameters(parameters);
+            },
+            (builder) =>
+            {
+                return builder.Command.ExecuteReaderAsync(
+                    CommandBehavior.CloseConnection,
+                    cancellationToken);
+            });
+        }
+
+        public static Task<IDataReader> ExecuteReaderAsync(
+           this IDataCommandScope scope,
+           ISqlBuilder sqlBuilder,
+           IDictionary parameters,
+           CancellationToken cancellationToken = default)
+        {
+            return scope.ExecuteAsync((builder) =>
+            {
+                builder.Command = scope.CreateCommand(CommandBehavior.CloseConnection);
+                var cfg = builder.Configuration;
+                cfg.Query.Append(sqlBuilder.ToStringBuilder());
+                cfg.SetParameters(parameters);
+            },
+            (builder) =>
+            {
+                return builder.Command.ExecuteReaderAsync(
+                    CommandBehavior.CloseConnection,
+                    cancellationToken);
+            });
+        }
+
+        public static Task<IDataReader> ExecuteReaderAsync(
+           this IDataCommandScope scope,
+           ISqlBuilder sqlBuilder,
+           IEnumerable<IDbDataParameter> parameters,
+           CancellationToken cancellationToken = default)
+        {
+            return scope.ExecuteAsync((builder) =>
+            {
+                builder.Command = scope.CreateCommand(CommandBehavior.CloseConnection);
+                var cfg = builder.Configuration;
+                cfg.Query.Append(sqlBuilder.ToStringBuilder());
+                cfg.SetParameters(parameters);
+            },
+            (builder) =>
+            {
+                return builder.Command.ExecuteReaderAsync(
+                    CommandBehavior.CloseConnection,
+                    cancellationToken);
+            });
+        }
+
+
+        public static Task<IDataReader> ExecuteReaderAsync(
+           this IDataCommandScope scope,
+           ISqlBuilder sqlBuilder,
+           IEnumerable<KeyValuePair<string, object>> parameters,
+           CancellationToken cancellationToken = default)
+        {
+            return scope.ExecuteAsync((builder) =>
+            {
+                builder.Command = scope.CreateCommand(CommandBehavior.CloseConnection);
+                var cfg = builder.Configuration;
+                cfg.Query.Append(sqlBuilder.ToStringBuilder());
+                cfg.SetParameters(parameters);
+            },
+            (builder) =>
+            {
+                return builder.Command.ExecuteReaderAsync(
+                    CommandBehavior.CloseConnection,
+                    cancellationToken);
+            });
+        }
+
+
+
+        public static Task<T> ExecuteAsync<T>(
+           this IDataCommandScope scope,
+           Action<DataCommandBuilder> configure,
+           Func<IDataCommandBuilder, Task<T>> executeAsync)
+        {
+            Check.NotNull(nameof(scope), scope);
+            Check.NotNull(nameof(configure), configure);
+            Check.NotNull(nameof(executeAsync), executeAsync);
+            try
+            {
+                var statement = new DataCommandBuilder();
+                configure(statement);
+                scope.OnNext(statement);
+
+                return executeAsync(statement);
+            }
+            catch
+            {
+                scope.OnError(null);
+                throw;
+            }
+            finally
+            {
+                scope.OnCompleted();
+            }
+        }
+
+        public static T Execute<T>(
+            this IDataCommandScope scope,
+            Action<DataCommandBuilder> configure,
+            Func<IDataCommandBuilder, T> execute)
+        {
+            Check.NotNull(nameof(scope), scope);
+            Check.NotNull(nameof(configure), configure);
+            Check.NotNull(nameof(execute), execute);
+
+            try
+            {
+                var statement = new DataCommandBuilder();
+                configure(statement);
+                scope.OnNext(statement);
+                return execute(statement);
+            }
+            catch
+            {
+                scope.OnError(null);
+                throw;
+            }
+            finally
+            {
+                scope.OnCompleted();
+            }
+        }
+    }
+}

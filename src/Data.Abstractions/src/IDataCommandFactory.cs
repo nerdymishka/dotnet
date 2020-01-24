@@ -4,6 +4,6 @@ namespace NerdyMishka.Data
 {
     public interface IDataCommandFactory
     {
-        IDataCommand CreateCommand(CommandBehavior behavior = default);
+        IDataCommand CreateCommand(CommandBehavior? behavior = default);
     }
 }

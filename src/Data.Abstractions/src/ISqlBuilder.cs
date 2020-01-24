@@ -12,7 +12,6 @@ namespace NerdyMishka.Data
 
         ISqlBuilder AppendLine();
 
-
         ISqlBuilder AppendLine(char value);
 
         ISqlBuilder AppendLine(string value);
@@ -54,10 +53,13 @@ namespace NerdyMishka.Data
         ISqlBuilder Append(TimeSpan value, DbType type = DbType.Int64);
 
         ISqlBuilder AppendParameterName(string name);
+
         ISqlBuilder AppendIdentity(params string[] name);
+
         ISqlBuilder AppendJoin(string delimiter, params string[] names);
 
         ISqlBuilder AppendJoin(string delimiter, IEnumerable<string> names);
+
         StringBuilder ToStringBuilder();
     }
 }
