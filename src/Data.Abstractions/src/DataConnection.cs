@@ -95,7 +95,7 @@ namespace NerdyMishka.Data
         protected internal DbConnection InnerConnection { get; set; }
 
         /// <summary>
-        /// Begins the transaction.
+        /// Creates and starts the transaction.
         /// </summary>
         /// <param name="level">The level.</param>
         /// <returns>The transaction.</returns>
@@ -106,7 +106,7 @@ namespace NerdyMishka.Data
         }
 
         /// <summary>
-        /// Closes this instance.
+        /// Closes this connection.
         /// </summary>
         public void Close()
         {
@@ -114,7 +114,7 @@ namespace NerdyMishka.Data
         }
 
         /// <summary>
-        /// Closes the asynchronous.
+        /// Closes the connection asynchronously.
         /// </summary>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A task that closes the connection.</returns>
@@ -123,23 +123,45 @@ namespace NerdyMishka.Data
             return Task.Run(() => this.Close(), cancellationToken);
         }
 
+        /// <summary>
+        /// Creates the command.
+        /// </summary>
+        /// <param name="behavior">The behavior.</param>
+        /// <returns>The db command.</returns>
         public IDataCommand CreateCommand(CommandBehavior? behavior = default)
         {
             var cmd = this.InnerConnection.CreateCommand();
             return new DataCommand(cmd, this.SqlDialect, behavior);
         }
 
+        /// <summary>
+        /// Called when [completed].
+        /// </summary>
         public void OnCompleted()
         {
             if (this.autoClose)
                 this.Close();
         }
 
+        /// <summary>
+        /// Called when [error].
+        /// </summary>
+        /// <param name="error">The error.</param>
         public void OnError(Exception error)
         {
             this.Close();
         }
 
+        /// <summary>
+        /// Called when [next].
+        /// </summary>
+        /// <param name="builder">The builder.</param>
+        /// <exception cref="ArgumentNullException">builder</exception>
+        /// <exception cref="NullReferenceException">
+        /// Configuration
+        /// or
+        /// Query
+        /// </exception>
         public void OnNext(IDataCommandBuilder builder)
         {
             if (builder is null)
@@ -166,37 +188,55 @@ namespace NerdyMishka.Data
             builder.ApplyConfiguration();
         }
 
+        /// <summary>
+        /// Opens the connection.
+        /// </summary>
         public void Open()
         {
             this.InnerConnection?.Open();
         }
 
-        public Task OpenAsync()
-        {
-            return this.InnerConnection?.OpenAsync();
-        }
-
-        public Task OpenAsync(CancellationToken cancellationToken)
+        /// <summary>
+        /// Opens the connection asynchronously.
+        /// </summary>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>A task that opens the connection.</returns>
+        public Task OpenAsync(CancellationToken cancellationToken = default)
         {
             return this.InnerConnection?.OpenAsync(cancellationToken);
         }
 
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources.
+        /// </summary>
         public void Dispose()
         {
             this.Dispose(true);
             GC.SuppressFinalize(this);
         }
 
+        /// <summary>
+        /// Unwraps this instance.
+        /// </summary>
+        /// <returns>The inner connection.</returns>
         object IUnwrap.Unwrap()
         {
             return this.InnerConnection;
         }
 
+        /// <summary>
+        /// Sets the connection close to automatic.
+        /// </summary>
+        /// <param name="value">if set to <c>true</c> [value].</param>
         protected internal void SetAutoClose(bool value)
         {
             this.autoClose = value;
         }
 
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources.
+        /// </summary>
+        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
         protected virtual void Dispose(bool disposing)
         {
             if (this.disposedValue)

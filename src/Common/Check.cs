@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 internal static class Check
 {
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T NotNull<T>(string parameterName, T value)
+    internal static T NotNull<T>(string parameterName, T value)
     {
         if (value == null)
             throw new ArgumentNullException(parameterName);
@@ -14,7 +14,7 @@ internal static class Check
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static IList<T> NotNullOrEmpty<T>(string parameterName, IList<T> value)
+    internal static IList<T> NotNullOrEmpty<T>(string parameterName, IList<T> value)
     {
         if (value == null || value.Count == 0)
             throw new ArgumentNullOrEmptyException(parameterName);
@@ -23,7 +23,7 @@ internal static class Check
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static string NotNullOrEmpty(string parameterName, string value)
+    internal static string NotNullOrEmpty(string parameterName, string value)
     {
         if (string.IsNullOrEmpty(value))
             throw new ArgumentNullOrEmptyException(parameterName);
@@ -32,7 +32,7 @@ internal static class Check
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static string NotNullOrWhiteSpace(string parameterName, string value)
+    internal static string NotNullOrWhiteSpace(string parameterName, string value)
     {
         if (string.IsNullOrWhiteSpace(value))
             throw new ArgumentNullOrWhiteSpaceException(parameterName);
@@ -41,7 +41,7 @@ internal static class Check
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static void Range<T>(string parameterName, T value, T min, T max)
+    internal static void Range<T>(string parameterName, T value, T min, T max)
         where T : struct, IComparable<T>
     {
         if (value.CompareTo(min) == -1)
@@ -52,7 +52,7 @@ internal static class Check
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static void Slice<T>(string parameterName, IList<T> value, int start, int count)
+    internal static void Slice<T>(string parameterName, IList<T> value, int start, int count)
     {
         if (start < 0)
             throw new ArgumentOutOfRangeException(nameof(start), $"Argument {start} must be greater than zero.");
@@ -74,7 +74,7 @@ internal static class Check
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static void Count<T>(string parameterName, IList<T> value, int count)
+    internal static void Count<T>(string parameterName, IList<T> value, int count)
     {
         if (value.Count > count)
         {
@@ -84,7 +84,7 @@ internal static class Check
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static void Max<T>(string parameterName, IList<T> value, int max)
+    internal static void Max<T>(string parameterName, IList<T> value, int max)
     {
         if (value.Count > max)
         {
@@ -94,7 +94,7 @@ internal static class Check
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static void Min<T>(string parameterName, IList<T> value, int min)
+    internal static void Min<T>(string parameterName, IList<T> value, int min)
     {
         if (value.Count < min)
         {

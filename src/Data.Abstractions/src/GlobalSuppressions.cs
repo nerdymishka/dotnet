@@ -3,4 +3,9 @@
 // Project-level suppressions either have no target or are given
 // a specific target and scoped to a namespace, type, member, etc.
 
-[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Naming", "CA1710:Identifiers should have correct suffix", Justification = "<Pending>", Scope = "type", Target = "~T:NerdyMishka.Data.DataReader")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage(
+    "Naming",
+    "CA1710:Identifiers should have correct suffix",
+    Justification = "ByDesign",
+    Scope = "type",
+    Target = "~T:NerdyMishka.Data.DataReader")]
