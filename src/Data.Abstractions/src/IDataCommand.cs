@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace NerdyMishka.Data
 {
-    public interface IDataCommand : IDisposable
+    public interface IDataCommand : IDisposable,
+        IUnwrappable
     {
         IDataConnectionActions Connection { get; }
 

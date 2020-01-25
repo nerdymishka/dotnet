@@ -276,6 +276,85 @@ namespace NerdyMishka.Data.Extensions
             }
         }
 
+        public static void Use(
+            this IDataCommandScope scope,
+            Action<IDataConnection> execute)
+        {
+            Check.NotNull(nameof(scope), scope);
+            Check.NotNull(nameof(execute), execute);
+
+            IDataTransaction tx = null;
+            try
+            {
+                DataConnection c = null;
+                if (scope is DataTransaction transaction)
+                {
+                    c = (DataConnection)transaction.Connection;
+                    transaction.SetAutoCommit(true);
+                    tx = transaction;
+                }
+                else if (scope is DataConnection connection)
+                {
+                    c = connection;
+                }
+
+                execute(c);
+            }
+            catch
+            {
+                tx?.OnError(null);
+                scope.OnError(null);
+                throw;
+            }
+            finally
+            {
+                tx?.OnCompleted();
+                scope.OnCompleted();
+            }
+        }
+
+        public static T Try<T>(
+            this IDataCommandScope scope,
+            Func<IDataConnection, T> execute)
+        {
+            Check.NotNull(nameof(scope), scope);
+            Check.NotNull(nameof(execute), execute);
+            IDataTransaction tx = null;
+            try
+            {
+                DataConnection c = null;
+                if (scope is DataTransaction transaction)
+                {
+                    c = (DataConnection)transaction.Connection;
+                    transaction.SetAutoCommit(true);
+                    tx = transaction;
+                }
+                else if (scope is DataConnection connection)
+                {
+                    c = connection;
+                }
+
+                if (c.State != ConnectionState.Open)
+                {
+                    c.SetAutoClose(true);
+                    c.Open();
+                }
+
+                return execute(c);
+            }
+            catch
+            {
+                tx?.OnError(null);
+                scope.OnError(null);
+                throw;
+            }
+            finally
+            {
+                tx?.OnCompleted();
+                scope.OnCompleted();
+            }
+        }
+
         public static T Execute<T>(
             this IDataCommandScope scope,
             Action<DataCommandBuilder> configure,

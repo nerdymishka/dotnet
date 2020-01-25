@@ -3,11 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+#pragma warning disable CA1710
 
 namespace NerdyMishka.Data
 {
+    /// <summary>
+    /// A contract for an enhanced <see cref="System.Data.IDataReader" />.
+    /// </summary>
     public interface IDataReader : IDataRecord,
         IEnumerable<IDataRecord>,
+        IUnwrappable,
         IDisposable
     {
         /// <summary>
@@ -17,22 +22,24 @@ namespace NerdyMishka.Data
         int Depth { get; }
 
         /// <summary>
-        /// Gets whether or not this data set has rows.
+        /// Gets a value indicating whether or not this data set has rows.
         /// </summary>
-        /// <value><see cref="System.Boolean">.</value>
+        /// <value>
+        /// The value indicating whether or not this data set has rows.
+        /// </value>
         bool HasRows { get; }
 
         /// <summary>
-        /// Gets whether or not the data reader is closed.
+        /// Gets a value indicating whether or not the data reader is closed.
         /// </summary>
-        /// <value><see cref="System.Boolean">.</value>
+        /// <value>A value indicating whether or not the data reader is closed.</value>
         bool IsClosed { get; }
 
         /// <summary>
         /// Reads the next row.
         /// </summary>
-        /// <returns><c>True</c> if the read moved to the next row; 
-        /// Otherwise, <c>False</c></returns>
+        /// <returns><c>True</c> if the read moved to the next row;
+        /// Otherwise, <c>False</c>.</returns>
         bool Read();
 
         /// <summary>
@@ -51,8 +58,8 @@ namespace NerdyMishka.Data
         /// <summary>
         /// Moves to the next result set if one exists.
         /// </summary>
-        /// <returns><c>True</c> if the read moves to the next result set; 
-        /// Otherwise, <c>False</c></returns>
+        /// <returns><c>True</c> if the read moves to the next result set;
+        /// Otherwise, <c>False</c>.</returns>
         bool NextResult();
 
         /// <summary>

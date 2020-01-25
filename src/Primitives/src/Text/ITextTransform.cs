@@ -1,4 +1,3 @@
-
 namespace NerdyMishka.Text
 {
     public interface ITextTransform

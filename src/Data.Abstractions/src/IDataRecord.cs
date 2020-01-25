@@ -152,24 +152,24 @@ namespace NerdyMishka.Data
         long GetBytes(string name, byte[] buffer);
 
         /// <summary>
-        /// Gets a <see cref="System.Char"> value by column index.
+        /// Gets a value by column index.
         /// </summary>
         /// <param name="ordinal">The column index.</param>
-        /// <returns>The <see cref="System.Char" /> value.</returns>
+        /// <returns>The character.</returns>
         char GetChar(int ordinal);
 
         /// <summary>
-        /// Gets a <see cref="System.Char"/> value by column name.
+        /// Gets a <see cref="char"/> value by column name.
         /// </summary>
         /// <param name="name">The column name.</param>
-        /// <returns>The <see cref="System.Char" /> value.</returns>
+        /// <returns>The <see cref="char" /> value.</returns>
         char GetChar(string name);
 
         /// <summary>
-        /// Gets the <see cref="System.Char[]" /> value and reads it into the
+        /// Gets the <see cref="char[]" /> value and reads it into the
         /// buffer.
         /// </summary>
-        /// <param name="index">The column index.</param>
+        /// <param name="ordinal">The column index.</param>
         /// <param name="fieldOffset">The starting index to read the data.</param>
         /// <param name="buffer">The buffer to store read data.</param>
         /// <param name="offset">The position to start writing in the buffer.</param>
@@ -178,16 +178,16 @@ namespace NerdyMishka.Data
         long GetChars(int ordinal, long fieldOffset, char[] buffer, int offset, int length);
 
         /// <summary>
-        /// Gets the <see cref="System.Char[]" /> value and reads it into the
+        /// Gets the <see cref="char[]" /> value and reads it into the
         /// buffer.
         /// </summary>
-        /// <param name="index">The column index.</param>
+        /// <param name="ordinal">The column index.</param>
         /// <param name="buffer">The buffer to store read data.</param>
         /// <returns>The number of bytes read.</returns>
         long GetChars(int ordinal, char[] buffer);
 
         /// <summary>
-        /// Gets the <see cref="System.Char[]" /> value and reads it into the
+        /// Gets the <see cref="char[]" /> value and reads it into the
         /// buffer.
         /// </summary>
         /// <param name="name">The column name.</param>
@@ -199,7 +199,7 @@ namespace NerdyMishka.Data
         long GetChars(string name, long fieldOffset, char[] buffer, int offset, int length);
 
         /// <summary>
-        /// Gets the <see cref="System.Char[]" /> value and reads it into the
+        /// Gets the <see cref="char[]" /> value and reads it into the
         /// buffer.
         /// </summary>
         /// <param name="name">The column name.</param>
@@ -224,7 +224,7 @@ namespace NerdyMishka.Data
         /// <summary>
         /// Gets a <see cref="System.DateTime"/> value by column name.
         /// </summary>
-        /// <param name="name">The column name.</param>
+        /// <param name="ordinal">The column index.</param>
         /// <returns>The <see cref="System.DateTime" /> value.</returns>
         DateTime GetDateTime(int ordinal);
 
@@ -236,65 +236,65 @@ namespace NerdyMishka.Data
         DateTime GetDateTime(string name);
 
         /// <summary>
-        /// Gets a <see cref="System.Decimal" /> value by column index.
+        /// Gets a <see cref="decimal" /> value by column index.
         /// </summary>
-        /// <param name="index">The column index.</param>
-        /// <returns>The <see cref="System.Decimal" /> value.</returns>
+        /// <param name="ordinal">The column index.</param>
+        /// <returns>The <see cref="decimal" /> value.</returns>
         decimal GetDecimal(int ordinal);
 
         /// <summary>
-        /// Gets a <see cref="System.Decimal"/> value by column name.
+        /// Gets a <see cref="decimal"/> value by column name.
         /// </summary>
         /// <param name="name">The column name.</param>
-        /// <returns>The <see cref="System.Decimal" /> value.</returns>
+        /// <returns>The <see cref="decimal" /> value.</returns>
         decimal GetDecimal(string name);
 
         /// <summary>
-        /// Gets a <see cref="System.Double" /> value by column index.
+        /// Gets a <see cref="double" /> value by column index.
         /// </summary>
-        /// <param name="index">The column index.</param>
-        /// <returns>The <see cref="System.Double" /> value.</returns>
+        /// <param name="ordinal">The column index.</param>
+        /// <returns>The <see cref="double" /> value.</returns>
         double GetDouble(int ordinal);
 
         /// <summary>
-        /// Gets a <see cref="System.Double"/> value by column name.
+        /// Gets a <see cref="double"/> value by column name.
         /// </summary>
         /// <param name="name">The column name.</param>
-        /// <returns>The <see cref="System.Double" /> value.</returns>
+        /// <returns>The <see cref="double" /> value.</returns>
         double GetDouble(string name);
 
         /// <summary>
         /// Gets the <see cref="System.Type"/> by column name for the value.
         /// </summary>
-        /// <param name="name">The column index.</param>
+        /// <param name="ordinal">The column index.</param>
         /// <returns>The <see cref="System.Type" />.</returns>
         Type GetFieldType(int ordinal);
 
         /// <summary>
-        /// 
+        /// Gets the <see cref="System.Type" /> for the field.
         /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
+        /// <param name="name">The column name.</param>
+        /// <returns>The <c>Type</c> of field.</returns>
         Type GetFieldType(string name);
 
         /// <summary>
-        /// Gets a <see cref="System.Single" /> value by column index.
+        /// Gets a <see cref="float" /> value by column index.
         /// </summary>
-        /// <param name="index">The column index.</param>
-        /// <returns>The <see cref="System.Single" /> value.</returns>
+        /// <param name="ordinal">The column index.</param>
+        /// <returns>The <see cref="float" /> value.</returns>
         float GetFloat(int ordinal);
 
         /// <summary>
-        /// Gets a <see cref="System.Single"/> value by column name.
+        /// Gets a <see cref="float"/> value by column name.
         /// </summary>
         /// <param name="name">The column name.</param>
-        /// <returns>The <see cref="System.Single" /> value.</returns>
+        /// <returns>The <see cref="float" /> value.</returns>
         float GetFloat(string name);
 
         /// <summary>
         /// Gets a <see cref="System.Guid" /> value by column index.
         /// </summary>
-        /// <param name="index">The column index.</param>
+        /// <param name="ordinal">The column index.</param>
         /// <returns>The <see cref="System.Guid" /> value.</returns>
         Guid GetGuid(int ordinal);
 
@@ -306,45 +306,45 @@ namespace NerdyMishka.Data
         Guid GetGuid(string name);
 
         /// <summary>
-        /// Gets a <see cref="System.Int16" /> value by column index.
+        /// Gets a <see cref="short" /> value by column index.
         /// </summary>
-        /// <param name="index">The column index.</param>
-        /// <returns>The <see cref="System.Int16" /> value.</returns>
+        /// <param name="ordinal">The column index.</param>
+        /// <returns>The <see cref="short" /> value.</returns>
         short GetInt16(int ordinal);
 
         /// <summary>
-        /// Gets a <see cref="System.Int16"/> value by column name.
+        /// Gets a <see cref="short"/> value by column name.
         /// </summary>
         /// <param name="name">The column name.</param>
-        /// <returns>The <see cref="System.Int16" /> value.</returns>
+        /// <returns>The <see cref="short" /> value.</returns>
         short GetInt16(string name);
 
         /// <summary>
-        /// Gets a <see cref="System.Int32" /> value by column index.
+        /// Gets a <see cref="int" /> value by column index.
         /// </summary>
-        /// <param name="index">The column index.</param>
-        /// <returns>The <see cref="System.Int32" /> value.</returns>
+        /// <param name="ordinal">The column index.</param>
+        /// <returns>The <see cref="int" /> value.</returns>
         int GetInt32(int ordinal);
 
         /// <summary>
-        /// Gets a <see cref="System.Int32"/> value by column name.
+        /// Gets a <see cref="int"/> value by column name.
         /// </summary>
         /// <param name="name">The column name.</param>
-        /// <returns>The <see cref="System.Int32" /> value.</returns>
+        /// <returns>The <see cref="int" /> value.</returns>
         int GetInt32(string name);
 
         /// <summary>
-        /// Gets a <see cref="System.Int64" /> value by column index.
+        /// Gets a <see cref="long" /> value by column index.
         /// </summary>
-        /// <param name="index">The column index.</param>
-        /// <returns>The <see cref="System.Int64" /> value.</returns>
+        /// <param name="ordinal">The column index.</param>
+        /// <returns>The <see cref="long" /> value.</returns>
         long GetInt64(int ordinal);
 
         /// <summary>
-        /// Gets a <see cref="System.Int64"/> value by column name.
+        /// Gets a <see cref="long"/> value by column name.
         /// </summary>
         /// <param name="name">The column name.</param>
-        /// <returns>The <see cref="System.Int64" /> value.</returns>
+        /// <returns>The <see cref="long" /> value.</returns>
         long GetInt64(string name);
 
         /// <summary>
@@ -362,23 +362,23 @@ namespace NerdyMishka.Data
         int GetOrdinal(string name);
 
         /// <summary>
-        /// Gets a <see cref="System.String" /> value by column index.
+        /// Gets a <see cref="string" /> value by column index.
         /// </summary>
-        /// <param name="index">The column index.</param>
-        /// <returns>The <see cref="System.String" /> value.</returns>
+        /// <param name="ordinal">The column index.</param>
+        /// <returns>The <see cref="string" /> value.</returns>
         string GetString(int ordinal);
 
         /// <summary>
-        /// Gets a <see cref="System.String"/> value by column name.
+        /// Gets a <see cref="string"/> value by column name.
         /// </summary>
         /// <param name="name">The column name.</param>
-        /// <returns>The <see cref="System.String" /> value.</returns>
+        /// <returns>The <see cref="string" /> value.</returns>
         string GetString(string name);
 
         /// <summary>
         /// Gets a <typeparamref name="T"/> value by column index.
         /// </summary>
-        /// <param name="index">The column index.</param>
+        /// <param name="ordinal">The column index.</param>
         /// <typeparam name="T">The data type.</typeparam>
         /// <returns>The column value.</returns>
         T GetValueAs<T>(int ordinal);
@@ -392,14 +392,14 @@ namespace NerdyMishka.Data
         T GetValueAs<T>(string name);
 
         /// <summary>
-        /// Gets a <see cref="System.Object" /> value by column index.
+        /// Gets a <see cref="object" /> value by column index.
         /// </summary>
-        /// <param name="index">The column index.</param>
-        /// <returns>The <see cref="System.Object" /> value.</returns>
+        /// <param name="ordinal">The column index.</param>
+        /// <returns>The <see cref="object" /> value.</returns>
         object GetValue(int ordinal);
 
         /// <summary>
-        /// Gets a <see cref="System.Object" /> value by column name.
+        /// Gets a <see cref="object" /> value by column name.
         /// </summary>
         /// <param name="name">The column name.</param>
         /// <returns>The column value.</returns>
@@ -415,7 +415,7 @@ namespace NerdyMishka.Data
         /// <summary>
         /// Gets a <see cref="System.IO.Stream"/> value by column index.
         /// </summary>
-        /// <param name="index">The column index.</param>
+        /// <param name="ordinal">The column index.</param>
         /// <returns>The <see cref="System.IO.Stream" /> value.</returns>
         Stream GetStream(int ordinal);
 
@@ -429,7 +429,7 @@ namespace NerdyMishka.Data
         /// <summary>
         /// Gets a <see cref="System.IO.TextReader"/> value by column index.
         /// </summary>
-        /// <param name="index">The column index.</param>
+        /// <param name="ordinal">The column index.</param>
         /// <returns>The <see cref="System.IO.TextReader" /> value.</returns>
         TextReader GetTextReader(int ordinal);
 

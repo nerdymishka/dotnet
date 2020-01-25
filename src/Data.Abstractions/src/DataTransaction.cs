@@ -11,6 +11,8 @@ namespace NerdyMishka.Data
         private bool autoCommit = false;
         private IsolationLevel il;
 
+        private bool isUsed = false;
+
         private DataConnection connection;
 
         public IDataConnection Connection => this.connection;
@@ -33,6 +35,7 @@ namespace NerdyMishka.Data
 
         public void Commit()
         {
+            this.isUsed = true;
             this.transaction.Commit();
         }
 
@@ -50,13 +53,14 @@ namespace NerdyMishka.Data
 
         public void OnCompleted()
         {
-            if (this.autoCommit)
+            if (this.autoCommit && !this.isUsed)
                 this.Commit();
         }
 
         public void OnError(Exception error)
         {
-            this.Rollback();
+            if (!this.isUsed)
+                this.Rollback();
         }
 
         public void OnNext(IDataCommandBuilder builder)
@@ -95,11 +99,17 @@ namespace NerdyMishka.Data
         public void Rollback()
         {
             this.transaction.Rollback();
+            this.isUsed = true;
         }
 
         public void SetAutoCommit(bool autoCommit = true)
         {
             this.autoCommit = autoCommit;
+        }
+
+        object IUnwrappable.Unwrap()
+        {
+            return this.transaction;
         }
     }
 }

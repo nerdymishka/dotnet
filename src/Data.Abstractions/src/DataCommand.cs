@@ -29,6 +29,11 @@ namespace NerdyMishka.Data
             this.Behavior = behavior;
         }
 
+        ~DataCommand()
+        {
+            this.Dispose(false);
+        }
+
         public IDataConnectionActions Connection { get; set; }
 
         public IDataTransactionActions Transaction { get; set; }
@@ -135,9 +140,9 @@ namespace NerdyMishka.Data
             this.dbCommand = null;
         }
 
-        ~DataCommand()
+        object IUnwrappable.Unwrap()
         {
-            this.Dispose(false);
+            return this.command;
         }
     }
 }

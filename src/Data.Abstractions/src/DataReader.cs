@@ -370,5 +370,10 @@ namespace NerdyMishka.Data
             Dispose(true);
         }
         #endregion
+
+        object IUnwrappable.Unwrap()
+        {
+            return this.reader;
+        }
     }
 }

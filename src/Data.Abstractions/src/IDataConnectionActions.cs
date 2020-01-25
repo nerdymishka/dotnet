@@ -15,9 +15,7 @@ namespace NerdyMishka.Data
 
         void Open();
 
-        Task OpenAsync();
-
-        Task OpenAsync(CancellationToken cancellationToken);
+        Task OpenAsync(CancellationToken cancellationToken = default);
 
         void Close();
     }

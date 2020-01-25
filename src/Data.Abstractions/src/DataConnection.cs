@@ -14,28 +14,56 @@ namespace NerdyMishka.Data
 
         private bool autoClose = false;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DataConnection" /> class.
+        /// </summary>
+        /// <param name="connection">The inner connection.</param>
+        /// <param name="sqlDialect">The sql dialect for the inner connection.</param>
+        /// <param name="autoClose">A indicating to automatically closed the connections.</param>
+        public DataConnection(
+            IDbConnection connection,
+            ISqlDialect sqlDialect,
+            bool autoClose = false)
+        {
+            Check.NotNull(nameof(connection), connection);
+            Check.NotNull(nameof(sqlDialect), sqlDialect);
+
+            this.InnerConnection = (DbConnection)connection;
+            this.SqlDialect = sqlDialect;
+            this.autoClose = autoClose;
+        }
+
+        ~DataConnection()
+        {
+            this.Dispose(false);
+        }
+
+        /// <summary>
+        /// Gets the provider name.
+        /// </summary>
         public string Provider => this.SqlDialect.Name;
 
+        /// <summary>
+        /// Gets or sets the connection string.
+        /// </summary>
+        /// <value>The connection string.</value>
         public string ConnectionString
         {
             get => this.InnerConnection.ConnectionString;
             set => this.InnerConnection.ConnectionString = value;
         }
 
-        public ConnectionState State => this.InnerConnection.State;
+        public ConnectionState State =>
+            this.InnerConnection?.State ?? ConnectionState.Closed;
 
         public ISqlDialect SqlDialect { get; private set; }
 
-        protected internal DbConnection InnerConnection { get; set; }
-
-        public DataConnection(
-            IDbConnection connection,
-            ISqlDialect sqlDialect,
-            bool autoClose = false)
+        public int TimeOut
         {
-            this.InnerConnection = (DbConnection)connection;
-            this.SqlDialect = sqlDialect;
+            get => this.InnerConnection.ConnectionTimeout;
         }
+
+        protected internal DbConnection InnerConnection { get; set; }
 
         public IDataTransactionActions BeginTransaction(IsolationLevel level = 0)
         {
@@ -46,6 +74,11 @@ namespace NerdyMishka.Data
         public void Close()
         {
             this.InnerConnection?.Close();
+        }
+
+        public virtual Task CloseAsync(CancellationToken cancellationToken = default)
+        {
+            return Task.Run(() => this.Close(), cancellationToken);
         }
 
         public IDataCommand CreateCommand(CommandBehavior? behavior = default)
@@ -103,6 +136,22 @@ namespace NerdyMishka.Data
             return this.InnerConnection?.OpenAsync(cancellationToken);
         }
 
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        object IUnwrappable.Unwrap()
+        {
+            return this.InnerConnection;
+        }
+
+        protected internal void SetAutoClose(bool value)
+        {
+            this.autoClose = value;
+        }
+
         protected virtual void Dispose(bool disposing)
         {
             if (this.disposedValue)
@@ -116,17 +165,6 @@ namespace NerdyMishka.Data
             this.InnerConnection?.Dispose();
             this.InnerConnection = null;
             this.disposedValue = true;
-        }
-
-        public void Dispose()
-        {
-            this.Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        ~DataConnection()
-        {
-            this.Dispose(false);
         }
     }
 }
