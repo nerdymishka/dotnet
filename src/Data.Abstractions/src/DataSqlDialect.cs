@@ -1,4 +1,3 @@
-
 using System;
 using System.Data;
 using System.Globalization;
@@ -15,9 +14,9 @@ namespace NerdyMishka.Data
 
         public char ParameterPrefixToken => '@';
 
-        public char LeftIdentifierToken => '[';
+        public char LeftIdentifierEscapeToken => '[';
 
-        public char RightIdentifierToken => ']';
+        public char RightIdentifierEscapeToken => ']';
 
         public char RightEscapeToken => '\'';
 
@@ -55,7 +54,7 @@ namespace NerdyMishka.Data
 
         public string Write(double value)
         {
-            //https://github.com/dotnet/efcore/blob/master/src/EFCore.Relational/Storage/DoubleTypeMapping.cs
+            // https://github.com/dotnet/efcore/blob/master/src/EFCore.Relational/Storage/DoubleTypeMapping.cs
             var doubleValue = Convert.ToDouble(value);
             var literal = doubleValue.ToString("G17", CultureInfo.InvariantCulture);
 
@@ -139,6 +138,5 @@ namespace NerdyMishka.Data
 
         public string WriteNull()
             => "NULL";
-
     }
 }

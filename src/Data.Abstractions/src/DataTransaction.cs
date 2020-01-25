@@ -1,5 +1,3 @@
-
-
 using System;
 using System.Data;
 
@@ -13,11 +11,9 @@ namespace NerdyMishka.Data
 
         private bool isUsed = false;
 
+        private bool isDisposed = false;
+
         private DataConnection connection;
-
-        public IDataConnection Connection => this.connection;
-
-        public ISqlDialect SqlDialect => this.connection.SqlDialect;
 
         protected internal DataTransaction(
             DataConnection connection,
@@ -32,6 +28,10 @@ namespace NerdyMishka.Data
             this.transaction = transaction;
             this.autoCommit = autoCommit;
         }
+
+        public IDataConnection Connection => this.connection;
+
+        public ISqlDialect SqlDialect => this.connection.SqlDialect;
 
         public void Commit()
         {
@@ -48,7 +48,8 @@ namespace NerdyMishka.Data
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         public void OnCompleted()
@@ -90,6 +91,9 @@ namespace NerdyMishka.Data
                     .BeginTransaction(this.il);
             }
 
+            if (builder.Configuration.Query == null)
+                builder.Configuration.Query = this.SqlDialect.CreateBuilder();
+
             if (builder.Command == null)
                 builder.Command = this.CreateCommand();
 
@@ -102,14 +106,30 @@ namespace NerdyMishka.Data
             this.isUsed = true;
         }
 
-        public void SetAutoCommit(bool autoCommit = true)
+        public virtual void SetAutoCommit(bool autoCommit = true)
         {
             this.autoCommit = autoCommit;
         }
 
-        object IUnwrappable.Unwrap()
+        object IUnwrap.Unwrap()
         {
             return this.transaction;
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (this.isDisposed)
+                return;
+
+            if (disposing)
+            {
+                if (!this.isUsed)
+                    this.Commit();
+
+                this.connection = null;
+            }
+
+            this.isDisposed = true;
         }
     }
 }

@@ -1,5 +1,3 @@
-
-
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -89,7 +87,7 @@ namespace NerdyMishka.Data
             CancellationToken cancellationToken = default)
         {
             behavior = behavior ?? this.Behavior;
-            System.Data.IDataReader dr = null;
+            System.Data.IDataReader dr;
             if (!behavior.HasValue)
             {
                 dr = await this.dbCommand.ExecuteReaderAsync(cancellationToken)
@@ -125,6 +123,11 @@ namespace NerdyMishka.Data
             GC.SuppressFinalize(this);
         }
 
+        object IUnwrap.Unwrap()
+        {
+            return this.command;
+        }
+
         protected virtual void Dispose(bool disposing)
         {
             if (this.isDisposed)
@@ -138,11 +141,6 @@ namespace NerdyMishka.Data
 
             this.command?.Dispose();
             this.dbCommand = null;
-        }
-
-        object IUnwrappable.Unwrap()
-        {
-            return this.command;
         }
     }
 }

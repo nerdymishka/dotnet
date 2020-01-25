@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,23 +10,6 @@ namespace NerdyMishka.Data.Extensions
 {
     public static class IDataCommandScopeExtensions
     {
-
-        public static int Execute(
-           this IDataCommandScope scope,
-           string query,
-           IList parameters,
-           CommandBehavior behavior = CommandBehavior.Default)
-        {
-            return scope.Execute((builder) =>
-            {
-                builder.Command = scope.CreateCommand(behavior);
-                var cfg = builder.Configuration;
-                cfg.Query.Append(query);
-                cfg.SetParameters(parameters);
-            },
-            (builder) => builder.Command.Execute());
-        }
-
         public static int ExecuteReader(
             this IDataCommandScope scope,
             ISqlBuilder sqlBuilder,
@@ -38,7 +20,7 @@ namespace NerdyMishka.Data.Extensions
             {
                 builder.Command = scope.CreateCommand(behavior);
                 var cfg = builder.Configuration;
-                cfg.Query.Append(sqlBuilder.ToStringBuilder());
+                cfg.Query = sqlBuilder;
                 cfg.SetParameters(parameters);
             },
             (builder) => builder.Command.Execute());
@@ -54,7 +36,7 @@ namespace NerdyMishka.Data.Extensions
             {
                 builder.Command = scope.CreateCommand(behavior);
                 var cfg = builder.Configuration;
-                cfg.Query.Append(sqlBuilder.ToStringBuilder());
+                cfg.Query = sqlBuilder;
                 cfg.SetParameters(parameters);
             },
             (builder) => builder.Command.Execute());
@@ -70,25 +52,10 @@ namespace NerdyMishka.Data.Extensions
             {
                 builder.Command = scope.CreateCommand(behavior);
                 var cfg = builder.Configuration;
-                cfg.Query.Append(sqlBuilder.ToStringBuilder());
+                cfg.Query = sqlBuilder;
                 cfg.SetParameters(parameters);
             },
             (builder) => builder.Command.Execute());
-        }
-
-        public static IDataReader ExecuteReader(
-            this IDataCommandScope scope,
-            string query,
-            IList parameters)
-        {
-            return scope.Execute((builder) =>
-            {
-                builder.Command = scope.CreateCommand(CommandBehavior.CloseConnection);
-                var cfg = builder.Configuration;
-                cfg.Query.Append(query);
-                cfg.SetParameters(parameters);
-            },
-            (builder) => builder.Command.ExecuteReader());
         }
 
         public static IDataReader ExecuteReader(
@@ -100,7 +67,7 @@ namespace NerdyMishka.Data.Extensions
             {
                 builder.Command = scope.CreateCommand(CommandBehavior.CloseConnection);
                 var cfg = builder.Configuration;
-                cfg.Query.Append(sqlBuilder.ToStringBuilder());
+                cfg.Query = sqlBuilder;
                 cfg.SetParameters(parameters);
             },
             (builder) => builder.Command.ExecuteReader());
@@ -115,15 +82,11 @@ namespace NerdyMishka.Data.Extensions
             {
                 builder.Command = scope.CreateCommand(CommandBehavior.CloseConnection);
                 var cfg = builder.Configuration;
-                cfg.Query.Append(sqlBuilder.ToStringBuilder());
+                cfg.Query = sqlBuilder;
                 cfg.SetParameters(parameters);
             },
             (builder) => builder.Command.ExecuteReader());
         }
-
-
-
-
 
         public static IDataReader ExecuteReader(
             this IDataCommandScope scope,
@@ -134,32 +97,10 @@ namespace NerdyMishka.Data.Extensions
             {
                 builder.Command = scope.CreateCommand(CommandBehavior.CloseConnection);
                 var cfg = builder.Configuration;
-                cfg.Query.Append(sqlBuilder.ToStringBuilder());
+                cfg.Query = sqlBuilder;
                 cfg.SetParameters(parameters);
             },
             (builder) => builder.Command.ExecuteReader());
-        }
-
-
-        public static Task<IDataReader> ExecuteReaderAsync(
-           this IDataCommandScope scope,
-           string query,
-           IList parameters,
-           CancellationToken cancellationToken = default)
-        {
-            return scope.ExecuteAsync((builder) =>
-            {
-                builder.Command = scope.CreateCommand(CommandBehavior.CloseConnection);
-                var cfg = builder.Configuration;
-                cfg.Query.Append(query);
-                cfg.SetParameters(parameters);
-            },
-            (builder) =>
-            {
-                return builder.Command.ExecuteReaderAsync(
-                    CommandBehavior.CloseConnection,
-                    cancellationToken);
-            });
         }
 
         public static Task<IDataReader> ExecuteReaderAsync(
@@ -172,7 +113,7 @@ namespace NerdyMishka.Data.Extensions
             {
                 builder.Command = scope.CreateCommand(CommandBehavior.CloseConnection);
                 var cfg = builder.Configuration;
-                cfg.Query.Append(sqlBuilder.ToStringBuilder());
+                cfg.Query = sqlBuilder;
                 cfg.SetParameters(parameters);
             },
             (builder) =>
@@ -193,7 +134,7 @@ namespace NerdyMishka.Data.Extensions
             {
                 builder.Command = scope.CreateCommand(CommandBehavior.CloseConnection);
                 var cfg = builder.Configuration;
-                cfg.Query.Append(sqlBuilder.ToStringBuilder());
+                cfg.Query = sqlBuilder;
                 cfg.SetParameters(parameters);
             },
             (builder) =>
@@ -214,7 +155,7 @@ namespace NerdyMishka.Data.Extensions
             {
                 builder.Command = scope.CreateCommand(CommandBehavior.CloseConnection);
                 var cfg = builder.Configuration;
-                cfg.Query.Append(sqlBuilder.ToStringBuilder());
+                cfg.Query = sqlBuilder;
                 cfg.SetParameters(parameters);
             },
             (builder) =>
@@ -224,7 +165,6 @@ namespace NerdyMishka.Data.Extensions
                     cancellationToken);
             });
         }
-
 
         public static Task<IDataReader> ExecuteReaderAsync(
            this IDataCommandScope scope,
@@ -236,7 +176,7 @@ namespace NerdyMishka.Data.Extensions
             {
                 builder.Command = scope.CreateCommand(CommandBehavior.CloseConnection);
                 var cfg = builder.Configuration;
-                cfg.Query.Append(sqlBuilder.ToStringBuilder());
+                cfg.Query = sqlBuilder;
                 cfg.SetParameters(parameters);
             },
             (builder) =>
@@ -246,8 +186,6 @@ namespace NerdyMishka.Data.Extensions
                     cancellationToken);
             });
         }
-
-
 
         public static Task<T> ExecuteAsync<T>(
            this IDataCommandScope scope,

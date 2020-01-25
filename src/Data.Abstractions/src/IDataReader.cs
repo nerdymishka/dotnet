@@ -12,7 +12,7 @@ namespace NerdyMishka.Data
     /// </summary>
     public interface IDataReader : IDataRecord,
         IEnumerable<IDataRecord>,
-        IUnwrappable,
+        IUnwrap,
         IDisposable
     {
         /// <summary>

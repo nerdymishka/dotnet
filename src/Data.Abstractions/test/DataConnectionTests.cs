@@ -132,7 +132,7 @@ public class DataConnectionTests
         var tx = conn.BeginTransaction();
         assert.NotNull(tx);
         assert.IsType(typeof(DataTransaction), tx);
-        assert.IsType(typeof(FakeDbTransaction), ((IUnwrappable)tx).Unwrap());
+        assert.IsType(typeof(FakeDbTransaction), ((IUnwrap)tx).Unwrap());
     }
 
     [UnitTest]

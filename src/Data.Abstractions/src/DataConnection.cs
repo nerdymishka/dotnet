@@ -1,5 +1,3 @@
-
-
 using System;
 using System.Data;
 using System.Data.Common;
@@ -8,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace NerdyMishka.Data
 {
+    /// <summary>
+    /// An enhanced DbConnection.
+    /// </summary>
+    /// <seealso cref="NerdyMishka.Data.IDataConnection" />
     public class DataConnection : IDataConnection
     {
         private bool disposedValue = false;
@@ -33,6 +35,9 @@ namespace NerdyMishka.Data
             this.autoClose = autoClose;
         }
 
+        /// <summary>
+        /// Finalizes an instance of the <see cref="DataConnection"/> class.
+        /// </summary>
         ~DataConnection()
         {
             this.Dispose(false);
@@ -53,29 +58,66 @@ namespace NerdyMishka.Data
             set => this.InnerConnection.ConnectionString = value;
         }
 
+        /// <summary>
+        /// Gets the state.
+        /// </summary>
+        /// <value>
+        /// The state.
+        /// </value>
         public ConnectionState State =>
             this.InnerConnection?.State ?? ConnectionState.Closed;
 
+        /// <summary>
+        /// Gets the SQL dialect.
+        /// </summary>
+        /// <value>
+        /// The SQL dialect.
+        /// </value>
         public ISqlDialect SqlDialect { get; private set; }
 
+        /// <summary>
+        /// Gets the time out.
+        /// </summary>
+        /// <value>
+        /// The time out.
+        /// </value>
         public int TimeOut
         {
             get => this.InnerConnection.ConnectionTimeout;
         }
 
+        /// <summary>
+        /// Gets or sets the inner connection.
+        /// </summary>
+        /// <value>
+        /// The inner connection.
+        /// </value>
         protected internal DbConnection InnerConnection { get; set; }
 
+        /// <summary>
+        /// Begins the transaction.
+        /// </summary>
+        /// <param name="level">The level.</param>
+        /// <returns>The transaction.</returns>
         public IDataTransactionActions BeginTransaction(IsolationLevel level = 0)
         {
             var transaction = this.InnerConnection.BeginTransaction(level);
             return new DataTransaction(this, transaction, level, false);
         }
 
+        /// <summary>
+        /// Closes this instance.
+        /// </summary>
         public void Close()
         {
             this.InnerConnection?.Close();
         }
 
+        /// <summary>
+        /// Closes the asynchronous.
+        /// </summary>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>A task that closes the connection.</returns>
         public virtual Task CloseAsync(CancellationToken cancellationToken = default)
         {
             return Task.Run(() => this.Close(), cancellationToken);
@@ -115,6 +157,9 @@ namespace NerdyMishka.Data
                 this.Open();
             }
 
+            if (builder.Configuration.Query == null)
+                builder.Configuration.Query = this.SqlDialect.CreateBuilder();
+
             if (builder.Command == null)
                 builder.Command = this.CreateCommand();
 
@@ -142,7 +187,7 @@ namespace NerdyMishka.Data
             GC.SuppressFinalize(this);
         }
 
-        object IUnwrappable.Unwrap()
+        object IUnwrap.Unwrap()
         {
             return this.InnerConnection;
         }
