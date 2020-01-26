@@ -152,6 +152,8 @@ namespace NerdyMishka.Data
             if (builder.Command == null)
                 builder.Command = this.CreateCommand();
 
+            builder.Configuration.ParameterPrefix = this.SqlDialect.ParameterPrefixToken;
+
             builder.ApplyConfiguration();
         }
 

@@ -28,7 +28,7 @@ namespace NerdyMishka.Data
         /// <value>
         /// The parameter prefix token.
         /// </value>
-        public char ParameterPrefixToken => '@';
+        public char ParameterPrefixToken => ':';
 
         /// <summary>
         /// Gets the left identifier escape token.
@@ -87,7 +87,7 @@ namespace NerdyMishka.Data
         /// The SQL literal.
         /// </returns>
         /// <exception cref="NotSupportedException">
-        /// Throws when the value is not supported for writing a SQL literal
+        /// Throws when the value is not supported for writing a SQL literal.
         /// </exception>
         public string Write(object value)
         {

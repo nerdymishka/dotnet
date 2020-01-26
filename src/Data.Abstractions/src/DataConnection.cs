@@ -43,6 +43,8 @@ namespace NerdyMishka.Data
             this.Dispose(false);
         }
 
+        public bool AutoClose => this.autoClose;
+
         /// <summary>
         /// Gets the provider name.
         /// </summary>
@@ -156,11 +158,11 @@ namespace NerdyMishka.Data
         /// Called when [next].
         /// </summary>
         /// <param name="builder">The builder.</param>
-        /// <exception cref="ArgumentNullException">builder</exception>
+        /// <exception cref="ArgumentNullException">builder.</exception>
         /// <exception cref="NullReferenceException">
         /// Configuration
         /// or
-        /// Query
+        /// Query.
         /// </exception>
         public void OnNext(IDataCommandBuilder builder)
         {
@@ -184,6 +186,8 @@ namespace NerdyMishka.Data
 
             if (builder.Command == null)
                 builder.Command = this.CreateCommand();
+
+            builder.Configuration.ParameterPrefix = this.SqlDialect.ParameterPrefixToken;
 
             builder.ApplyConfiguration();
         }
@@ -247,7 +251,9 @@ namespace NerdyMishka.Data
                 this.SqlDialect = null;
             }
 
-            this.InnerConnection?.Dispose();
+            if (this.autoClose)
+                this.InnerConnection?.Dispose();
+
             this.InnerConnection = null;
             this.disposedValue = true;
         }

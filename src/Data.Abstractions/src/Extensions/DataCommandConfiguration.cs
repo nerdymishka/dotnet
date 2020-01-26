@@ -5,7 +5,7 @@ using System.Text;
 
 namespace NerdyMishka.Data.Extensions
 {
-    #pragma warning disable CA2227
+#pragma warning disable CA2227
     public class DataCommandConfiguration : IDataCommandConfiguration
     {
         /// <summary>
@@ -24,7 +24,7 @@ namespace NerdyMishka.Data.Extensions
 
         public IDictionary ParameterLookup { get; internal set; }
 
-        public IList ParameterList { get; internal set; }
+        public IList<object> ParameterList { get; internal set; }
 
         public ISqlBuilder Query { get; set; }
 
@@ -34,7 +34,7 @@ namespace NerdyMishka.Data.Extensions
 
         public bool IsCompleteable { get; set; }
 
-        public void SetParameters(IList value)
+        public void SetParameters(IList<object> value)
         {
             this.ParameterList = value;
             this.SetType = ParameterSetType.List;

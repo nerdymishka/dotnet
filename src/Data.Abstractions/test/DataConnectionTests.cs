@@ -101,7 +101,7 @@ public class DataConnectionTests
     public void Dispose()
     {
         using var fake = new FakeDbConnection();
-        var conn = new DataConnection(fake, new DataSqlDialect());
+        var conn = new DataConnection(fake, new DataSqlDialect(), true);
 
         fake.SetState(ConnectionState.Open);
         assert.Equal(ConnectionState.Open, fake.State);

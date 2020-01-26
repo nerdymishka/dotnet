@@ -86,7 +86,11 @@ namespace NerdyMishka.Data
         /// <value>
         /// The text.
         /// </value>
-        public string Text { get; set; }
+        public string Text
+        {
+            get => this.command.CommandText;
+            set => this.command.CommandText = value;
+        }
 
         /// <summary>
         /// Gets the default command behavior for data readers.
@@ -102,15 +106,22 @@ namespace NerdyMishka.Data
         /// <value>
         /// The type.
         /// </value>
-        public CommandType Type { get; set; }
+        public CommandType Type
+        {
+            get => this.command.CommandType;
+            set => this.command.CommandType = value;
+        }
 
         /// <summary>
-        /// Gets or sets the timeout.
+        /// Gets the timeout.
         /// </summary>
         /// <value>
         /// The timeout.
         /// </value>
-        public int Timeout { get; set; }
+        public int Timeout
+        {
+            get => this.command.CommandTimeout;
+        }
 
         /// <summary>
         /// Adds the <see cref="IDbDataParameter" />.
@@ -119,7 +130,6 @@ namespace NerdyMishka.Data
         public void Add(IDbDataParameter parameter)
         {
             this.command.Parameters.Add(parameter);
-            this.parameters.Add(parameter);
         }
 
         /// <summary>
@@ -181,6 +191,15 @@ namespace NerdyMishka.Data
             if (!behavior.HasValue)
                 return new DataReader(this.command.ExecuteReader());
 
+            if (behavior.Value == CommandBehavior.CloseConnection)
+            {
+                if (this.Connection is DataConnection c)
+                {
+                    if (c.AutoClose)
+                        c.SetAutoClose(false);
+                }
+            }
+
             return new DataReader(this.command.ExecuteReader(behavior.Value));
         }
 
@@ -206,6 +225,15 @@ namespace NerdyMishka.Data
                 return new DataReader(dr);
             }
 
+            if (behavior.Value == CommandBehavior.CloseConnection)
+            {
+                if (this.Connection is DataConnection c)
+                {
+                    if (c.AutoClose)
+                        c.SetAutoClose(false);
+                }
+            }
+
             dr = await this.dbCommand.ExecuteReaderAsync(behavior.Value, cancellationToken)
                    .ConfigureAwait(false);
 
@@ -224,7 +252,7 @@ namespace NerdyMishka.Data
         }
 
         /// <summary>
-        /// Executes a query and returns one value asynchronousy.
+        /// Executes a query and returns one value asynchronously.
         /// </summary>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>

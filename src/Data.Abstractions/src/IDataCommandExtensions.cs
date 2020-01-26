@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -10,6 +11,8 @@ namespace NerdyMishka.Data
 {
     public static class IDataCommandExtensions
     {
+        private const char DefaultPrefix = '@';
+
         /// <summary>
         /// Adds the parameter to the command..
         /// </summary>
@@ -67,6 +70,14 @@ namespace NerdyMishka.Data
                         cfg.Query,
                         cfg.TypedParameterLookup,
                         cfg.ParameterPrefix);
+
+                case ParameterSetType.None:
+                    {
+                        var cmd = builder.Command;
+                        cmd.Type = CommandType.Text;
+                        cmd.Text = cfg.Query.ToString(true);
+                        return cmd;
+                    }
             }
 
             throw new NotSupportedException(ParameterSetType.None.ToString());
@@ -75,9 +86,9 @@ namespace NerdyMishka.Data
         internal static IDataCommand ApplyParameters(
             this IDataCommand cmd,
             ISqlBuilder query,
-            IList parameters,
+            IList<object> parameters,
             char parameterPrefix = '@',
-            string placeholder = "/?")
+            string placeholder = "[?]")
         {
             if (cmd is null)
                 throw new ArgumentNullException(nameof(cmd));
@@ -92,6 +103,8 @@ namespace NerdyMishka.Data
             if (parameters != null && parameters.Count > 0)
             {
                 int index = 0;
+
+                // TODO: write a parser
                 sql = Regex.Replace(sql, placeholder, (m) =>
                 {
                     var name = parameterPrefix + index.ToString(CultureInfo.InvariantCulture);
@@ -123,28 +136,30 @@ namespace NerdyMishka.Data
 
             if (parameters != null)
             {
-                bool? replace = null;
+                bool replace = parameterPrefix != DefaultPrefix;
+                bool hasPrefix = parameters.First().Key[0] == DefaultPrefix;
 
                 foreach (var set in parameters)
                 {
                     var key = set.Key;
-                    var parameterName = key;
+                    var parameterName = parameterPrefix + key;
                     var value = set.Value;
-                    if (!replace.HasValue)
-                    {
-                        var prefix = key[0];
-                        replace = char.IsLetterOrDigit(prefix) || prefix != parameterPrefix;
-                    }
 
-                    if (!replace.Value)
+                    if (!replace)
                     {
                         cmd.AddParameter(key, value);
                         continue;
                     }
 
-                    // TODO: do an insert
-                    parameterName = parameterPrefix + key;
-                    query.ToStringBuilder().Replace(key, parameterName);
+                    if (hasPrefix)
+                    {
+                        parameterName = parameterPrefix + key.Substring(1);
+                        query.ToStringBuilder().Replace(key, parameterName);
+                        cmd.AddParameter(parameterName, value);
+                        continue;
+                    }
+
+                    query.ToStringBuilder().Replace(DefaultPrefix + key, parameterName);
                     cmd.AddParameter(parameterName, value);
                 }
             }
@@ -167,15 +182,15 @@ namespace NerdyMishka.Data
 
             if (parameters != null)
             {
+                bool replace = parameterPrefix != DefaultPrefix;
+
                 foreach (var p in parameters)
                 {
-                    if (p.ParameterName[0] != parameterPrefix)
+                    if (replace && p.ParameterName[0] == DefaultPrefix)
                     {
-                        var name = p.ParameterName.Substring(1);
-                        var corrected = parameterPrefix + name;
-                        query.ToStringBuilder().Replace(p.ParameterName, corrected);
-
-                        p.ParameterName = corrected;
+                        var name = parameterPrefix + p.ParameterName.Substring(1);
+                        query.ToStringBuilder().Replace(p.ParameterName, name);
+                        p.ParameterName = name;
                     }
 
                     cmd.Add(p);
@@ -203,27 +218,31 @@ namespace NerdyMishka.Data
 
             if (parameters != null && parameters.Count > 0)
             {
-                bool? replace = null;
+                bool replace = parameterPrefix != DefaultPrefix;
+                var enumerator = parameters.GetEnumerator();
+                enumerator.MoveNext();
+                var hasPrefix = enumerator.Key.ToString()[0] == DefaultPrefix;
 
                 foreach (string key in parameters.Keys)
                 {
-                    var parameterName = key;
+                    var parameterName = parameterPrefix + key;
                     var value = parameters[key];
-                    if (!replace.HasValue)
-                    {
-                        var prefix = key[0];
-                        replace = char.IsLetterOrDigit(prefix) || prefix != parameterPrefix;
-                    }
 
-                    if (!replace.Value)
+                    if (!replace)
                     {
-                        cmd.AddParameter(key, value);
+                        cmd.AddParameter(parameterName, value);
                         continue;
                     }
 
-                    // TODO: do an insert
-                    parameterName = parameterPrefix + key;
-                    query.ToStringBuilder().Replace(key, parameterName);
+                    if (hasPrefix)
+                    {
+                        parameterName = parameterPrefix + key.Substring(1);
+                        query.ToStringBuilder().Replace(key, parameterName);
+                        cmd.AddParameter(parameterName, value);
+                        continue;
+                    }
+
+                    query.ToStringBuilder().Replace(DefaultPrefix + key, parameterName);
                     cmd.AddParameter(parameterName, value);
                 }
             }

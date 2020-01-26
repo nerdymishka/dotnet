@@ -10,7 +10,7 @@ namespace NerdyMishka.Data.Extensions
 {
     public static class IDataCommandScopeExtensions
     {
-        public static int ExecuteReader(
+        public static IDataReader ExecuteReader(
             this IDataCommandScope scope,
             ISqlBuilder sqlBuilder,
             IDictionary parameters,
@@ -23,13 +23,13 @@ namespace NerdyMishka.Data.Extensions
                 cfg.Query = sqlBuilder;
                 cfg.SetParameters(parameters);
             },
-            (builder) => builder.Command.Execute());
+            (builder) => builder.Command.ExecuteReader());
         }
 
         public static int Execute(
             this IDataCommandScope scope,
             ISqlBuilder sqlBuilder,
-            IEnumerable<IDbDataParameter> parameters,
+            IList<IDbDataParameter> parameters,
             CommandBehavior behavior = CommandBehavior.Default)
         {
             return scope.Execute((builder) =>
@@ -40,6 +40,97 @@ namespace NerdyMishka.Data.Extensions
                 cfg.SetParameters(parameters);
             },
             (builder) => builder.Command.Execute());
+        }
+
+        public static object ExecuteScalar(
+            this IDataCommandScope scope,
+            ISqlBuilder sqlBuilder,
+            IList<IDbDataParameter> parameters,
+            CommandBehavior behavior = CommandBehavior.Default)
+        {
+            return scope.Execute((builder) =>
+            {
+                builder.Command = scope.CreateCommand(behavior);
+                var cfg = builder.Configuration;
+                cfg.Query = sqlBuilder;
+                cfg.SetParameters(parameters);
+            },
+            (builder) => builder.Command.ExecuteScalar());
+        }
+
+        public static object ExecuteScalar(
+            this IDataCommandScope scope,
+            ISqlBuilder sqlBuilder,
+            IList<object> parameters,
+            CommandBehavior behavior = CommandBehavior.Default)
+        {
+            return scope.Execute((builder) =>
+            {
+                builder.Command = scope.CreateCommand(behavior);
+                var cfg = builder.Configuration;
+                cfg.Query = sqlBuilder;
+                cfg.SetParameters(parameters);
+            },
+            (builder) => builder.Command.ExecuteScalar());
+        }
+
+        public static object ExecuteScalar(
+            this IDataCommandScope scope,
+            ISqlBuilder sqlBuilder,
+            IDictionary parameters,
+            CommandBehavior behavior = CommandBehavior.Default)
+        {
+            return scope.Execute((builder) =>
+            {
+                builder.Command = scope.CreateCommand(behavior);
+                var cfg = builder.Configuration;
+                cfg.Query = sqlBuilder;
+                cfg.SetParameters(parameters);
+            },
+            (builder) => builder.Command.ExecuteScalar());
+        }
+
+        public static object ExecuteScalar(
+            this IDataCommandScope scope,
+            ISqlBuilder sqlBuilder,
+            IEnumerable<KeyValuePair<string, object>> parameters,
+            CommandBehavior behavior = CommandBehavior.Default)
+        {
+            return scope.Execute((builder) =>
+            {
+                builder.Command = scope.CreateCommand(behavior);
+                var cfg = builder.Configuration;
+                cfg.Query = sqlBuilder;
+                cfg.SetParameters(parameters);
+            },
+            (builder) => builder.Command.ExecuteScalar());
+        }
+
+        public static IDataReader ExecuteReader(
+            this IDataCommandScope scope,
+            ISqlBuilder sqlBuilder)
+        {
+            return scope.Execute((builder) =>
+            {
+                builder.Command = scope.CreateCommand(CommandBehavior.Default);
+                var cfg = builder.Configuration;
+                cfg.Query = sqlBuilder;
+            },
+            (builder) => builder.Command.ExecuteReader());
+        }
+
+        public static IDataReader ExecuteReader(
+            this IDataCommandScope scope,
+            ISqlBuilder sqlBuilder,
+            CommandBehavior behavior)
+        {
+            return scope.Execute((builder) =>
+            {
+                builder.Command = scope.CreateCommand(behavior);
+                var cfg = builder.Configuration;
+                cfg.Query = sqlBuilder;
+            },
+            (builder) => builder.Command.ExecuteReader());
         }
 
         public static int Execute(
@@ -61,11 +152,11 @@ namespace NerdyMishka.Data.Extensions
         public static IDataReader ExecuteReader(
             this IDataCommandScope scope,
             ISqlBuilder sqlBuilder,
-            IEnumerable<IDbDataParameter> parameters)
+            IList<IDbDataParameter> parameters)
         {
             return scope.Execute((builder) =>
             {
-                builder.Command = scope.CreateCommand(CommandBehavior.CloseConnection);
+                builder.Command = scope.CreateCommand(CommandBehavior.Default);
                 var cfg = builder.Configuration;
                 cfg.Query = sqlBuilder;
                 cfg.SetParameters(parameters);
@@ -80,7 +171,7 @@ namespace NerdyMishka.Data.Extensions
         {
             return scope.Execute((builder) =>
             {
-                builder.Command = scope.CreateCommand(CommandBehavior.CloseConnection);
+                builder.Command = scope.CreateCommand();
                 var cfg = builder.Configuration;
                 cfg.Query = sqlBuilder;
                 cfg.SetParameters(parameters);
@@ -91,11 +182,11 @@ namespace NerdyMishka.Data.Extensions
         public static IDataReader ExecuteReader(
             this IDataCommandScope scope,
             ISqlBuilder sqlBuilder,
-            IList parameters)
+            IList<object> parameters)
         {
             return scope.Execute((builder) =>
             {
-                builder.Command = scope.CreateCommand(CommandBehavior.CloseConnection);
+                builder.Command = scope.CreateCommand();
                 var cfg = builder.Configuration;
                 cfg.Query = sqlBuilder;
                 cfg.SetParameters(parameters);
@@ -106,12 +197,12 @@ namespace NerdyMishka.Data.Extensions
         public static Task<IDataReader> ExecuteReaderAsync(
            this IDataCommandScope scope,
            ISqlBuilder sqlBuilder,
-           IList parameters,
+           IList<object> parameters,
            CancellationToken cancellationToken = default)
         {
             return scope.ExecuteAsync((builder) =>
             {
-                builder.Command = scope.CreateCommand(CommandBehavior.CloseConnection);
+                builder.Command = scope.CreateCommand();
                 var cfg = builder.Configuration;
                 cfg.Query = sqlBuilder;
                 cfg.SetParameters(parameters);
@@ -132,7 +223,7 @@ namespace NerdyMishka.Data.Extensions
         {
             return scope.ExecuteAsync((builder) =>
             {
-                builder.Command = scope.CreateCommand(CommandBehavior.CloseConnection);
+                builder.Command = scope.CreateCommand();
                 var cfg = builder.Configuration;
                 cfg.Query = sqlBuilder;
                 cfg.SetParameters(parameters);

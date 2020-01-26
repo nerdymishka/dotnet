@@ -693,7 +693,7 @@ namespace NerdyMishka.Data
         public T GetValueAs<T>(string name)
         {
             var value = this.reader.GetValue(this.reader.GetOrdinal(name));
-            if (value is DBNull)
+            if (value is DBNull || value is null)
                 return default;
 
             return (T)value;
@@ -710,7 +710,7 @@ namespace NerdyMishka.Data
         public T GetValueAs<T>(int ordinal)
         {
             var value = this.reader.GetValue(ordinal);
-            if (value is DBNull)
+            if (value is DBNull || value is null)
                 return default;
 
             return (T)value;

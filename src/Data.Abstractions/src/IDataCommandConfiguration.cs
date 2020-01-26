@@ -53,7 +53,7 @@ namespace NerdyMishka.Data
         /// <value>
         /// The parameter list.
         /// </value>
-        IList ParameterList { get; }
+        IList<object> ParameterList { get; }
 
         /// <summary>
         /// Gets or sets the query.
@@ -91,7 +91,7 @@ namespace NerdyMishka.Data
         /// Sets the parameters.
         /// </summary>
         /// <param name="value">The value.</param>
-        void SetParameters(IList value);
+        void SetParameters(IList<object> value);
 
         /// <summary>
         /// Sets the parameters.

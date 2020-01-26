@@ -14,5 +14,5 @@ using NerdyMishka.Util.Arrays;
 Bad.
 
 ```csharp
-using Nerdmishka.Collections; // common namespace
+using NerdyMishka.Collections; // common namespace
 ```
