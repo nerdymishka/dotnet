@@ -1,8 +1,6 @@
 [System.Serializable]
 public class ArgumentNullOrWhiteSpaceException : System.Exception
 {
-    public string ParameterName { get; private set; }
-
     public ArgumentNullOrWhiteSpaceException()
     {
     }
@@ -37,4 +35,6 @@ public class ArgumentNullOrWhiteSpaceException : System.Exception
         : base(info, context)
     {
     }
+
+    public string ParameterName { get; private set; }
 }

@@ -1,12 +1,10 @@
 using System;
 using System.Text;
-using System.Reflection;
 
 namespace NerdyMishka.Text
 {
     public static class StringBuilderExtensions
     {
-
         public static int IndexOf(
             this StringBuilder builder,
             string searchText,

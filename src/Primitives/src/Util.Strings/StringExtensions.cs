@@ -6,7 +6,6 @@ namespace NerdyMishka.Util.Strings
 {
     public static class StringExtensions
     {
-
         public static bool Equals(
             this string instance,
             string pattern,
@@ -47,7 +46,7 @@ namespace NerdyMishka.Util.Strings
             bool ignoreCase = true)
         {
             if (ignoreCase)
-                return String.Equals(
+                return string.Equals(
                     instance,
                     pattern,
                     StringComparison.InvariantCultureIgnoreCase);

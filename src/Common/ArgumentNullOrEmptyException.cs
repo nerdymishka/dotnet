@@ -1,8 +1,6 @@
 [System.Serializable]
 public class ArgumentNullOrEmptyException : System.Exception
 {
-    public string ParameterName { get; private set; }
-
     public ArgumentNullOrEmptyException()
     {
     }
@@ -37,4 +35,6 @@ public class ArgumentNullOrEmptyException : System.Exception
         : base(info, context)
     {
     }
+
+    public string ParameterName { get; private set; }
 }
