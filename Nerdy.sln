@@ -13,33 +13,42 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mettle.Xunit.Tests", "src\M
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FileSystem.Abstractions", "FileSystem.Abstractions", "{8905B138-0BF3-41CC-B781-DF2F4ECAF7CA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NerdyMishka.Extensions.FileSystem.Abstractions", "src\FileSystem.Abstractions\src\NerdyMishka.Extensions.FileSystem.Abstractions.csproj", "{96172C73-5D6A-4E8A-80CB-E014B802FC8F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NerdyMishka.Extensions.FileSystem.Abstractions", "src\FileSystem.Abstractions\src\NerdyMishka.Extensions.FileSystem.Abstractions.csproj", "{96172C73-5D6A-4E8A-80CB-E014B802FC8F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Collections.Generic", "Collections.Generic", "{66BBE75D-A557-4A65-A450-58FE454CB780}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NerdyMishka.Collections.Generic", "src\Collections.Generic\src\NerdyMishka.Collections.Generic.csproj", "{C6F47985-CB1B-41C8-ACAD-8BBF68B96597}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NerdyMishka.Collections.Generic", "src\Collections.Generic\src\NerdyMishka.Collections.Generic.csproj", "{C6F47985-CB1B-41C8-ACAD-8BBF68B96597}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NerdyMishka.Collections.Generic.Tests", "src\Collections.Generic\test\NerdyMishka.Collections.Generic.Tests.csproj", "{59FA373B-F39A-455B-B5B7-CD72C574094A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NerdyMishka.Collections.Generic.Tests", "src\Collections.Generic\test\NerdyMishka.Collections.Generic.Tests.csproj", "{59FA373B-F39A-455B-B5B7-CD72C574094A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AppInsights.Abstractions", "AppInsights.Abstractions", "{9F4B2181-9A0E-45A0-B754-ECDA0643D60B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NerdyMishka.Extensions.AppInsights.Abstractions", "src\AppInsights.Abstractions\src\NerdyMishka.Extensions.AppInsights.Abstractions.csproj", "{1EBDFCC1-34D0-44C3-A190-DABB06B05F22}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NerdyMishka.Extensions.AppInsights.Abstractions", "src\AppInsights.Abstractions\src\NerdyMishka.Extensions.AppInsights.Abstractions.csproj", "{1EBDFCC1-34D0-44C3-A190-DABB06B05F22}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AppInsights.Impl", "AppInsights.Impl", "{47B50F7A-D853-47F7-81E9-3B207756E3C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NerdyMishka.Extensions.AppInsights.Impl", "src\AppInsights.Impl\src\NerdyMishka.Extensions.AppInsights.Impl.csproj", "{DB56A504-4200-4FE2-AF1F-F196B09E509B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NerdyMishka.Extensions.AppInsights.Impl", "src\AppInsights.Impl\src\NerdyMishka.Extensions.AppInsights.Impl.csproj", "{DB56A504-4200-4FE2-AF1F-F196B09E509B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Logging.AppInsights", "Logging.AppInsights", "{9B0882AE-9647-4E1F-A520-54526DFB212D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NerdyMishka.Extensions.Logging.AppInsights", "src\Logging.AppInsights\src\NerdyMishka.Extensions.Logging.AppInsights.csproj", "{0F289039-542D-4C45-8C65-B3D2A30B8B9E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NerdyMishka.Extensions.Logging.AppInsights", "src\Logging.AppInsights\src\NerdyMishka.Extensions.Logging.AppInsights.csproj", "{0F289039-542D-4C45-8C65-B3D2A30B8B9E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Logging.AppInsights.Abstractions", "Logging.AppInsights.Abstractions", "{4988B645-A6C3-4D68-88D7-F5815F8E10ED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NerdyMishka.Extensions.Logging.TelemetryClient", "src\Logging.AppInsights.Abstractions\src\NerdyMishka.Extensions.Logging.TelemetryClient.csproj", "{FB18B34A-E617-4236-921B-3686F5FA1223}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NerdyMishka.Extensions.Logging.TelemetryClient", "src\Logging.AppInsights.Abstractions\src\NerdyMishka.Extensions.Logging.TelemetryClient.csproj", "{FB18B34A-E617-4236-921B-3686F5FA1223}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data.Abstractions", "Data.Abstractions", "{E51D2798-D59C-48DC-8A57-2D7FC0A1B41A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NerdyMishka.Extensions.Data.Abstractions", "src\Data.Abstractions\src\NerdyMishka.Extensions.Data.Abstractions.csproj", "{33C3C009-9872-4FBB-85B6-D3D0B30613EE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NerdyMishka.Extensions.Data.Abstractions", "src\Data.Abstractions\src\NerdyMishka.Extensions.Data.Abstractions.csproj", "{33C3C009-9872-4FBB-85B6-D3D0B30613EE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data.Abstractions", "Data.Abstractions", "{F837ABE4-B9E3-4B7E-8271-22E3FFDDCFE0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NerdyMishka.Extensions.Data.Abstractions.Tests", "src\Data.Abstractions\test\NerdyMishka.Extensions.Data.Abstractions.Tests.csproj", "{E98856CA-BEC3-4771-883A-F52141F7B091}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6D96F8FB-16EC-4BDF-859D-7A7D12F145B4}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Quartz", "Quartz", "{CFC95FD1-D850-41D1-AB02-46CF6642BB68}"
 EndProject
@@ -175,6 +184,7 @@ Global
 		{33C3C009-9872-4FBB-85B6-D3D0B30613EE}.Release|x64.Build.0 = Release|Any CPU
 		{33C3C009-9872-4FBB-85B6-D3D0B30613EE}.Release|x86.ActiveCfg = Release|Any CPU
 		{33C3C009-9872-4FBB-85B6-D3D0B30613EE}.Release|x86.Build.0 = Release|Any CPU
+<<<<<<< HEAD
 		{CDE2CC68-5E0F-4CF9-9E0C-101B787DA9B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CDE2CC68-5E0F-4CF9-9E0C-101B787DA9B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CDE2CC68-5E0F-4CF9-9E0C-101B787DA9B0}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -187,6 +197,20 @@ Global
 		{CDE2CC68-5E0F-4CF9-9E0C-101B787DA9B0}.Release|x64.Build.0 = Release|Any CPU
 		{CDE2CC68-5E0F-4CF9-9E0C-101B787DA9B0}.Release|x86.ActiveCfg = Release|Any CPU
 		{CDE2CC68-5E0F-4CF9-9E0C-101B787DA9B0}.Release|x86.Build.0 = Release|Any CPU
+=======
+		{E98856CA-BEC3-4771-883A-F52141F7B091}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E98856CA-BEC3-4771-883A-F52141F7B091}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E98856CA-BEC3-4771-883A-F52141F7B091}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{E98856CA-BEC3-4771-883A-F52141F7B091}.Debug|x64.Build.0 = Debug|Any CPU
+		{E98856CA-BEC3-4771-883A-F52141F7B091}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E98856CA-BEC3-4771-883A-F52141F7B091}.Debug|x86.Build.0 = Debug|Any CPU
+		{E98856CA-BEC3-4771-883A-F52141F7B091}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E98856CA-BEC3-4771-883A-F52141F7B091}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E98856CA-BEC3-4771-883A-F52141F7B091}.Release|x64.ActiveCfg = Release|Any CPU
+		{E98856CA-BEC3-4771-883A-F52141F7B091}.Release|x64.Build.0 = Release|Any CPU
+		{E98856CA-BEC3-4771-883A-F52141F7B091}.Release|x86.ActiveCfg = Release|Any CPU
+		{E98856CA-BEC3-4771-883A-F52141F7B091}.Release|x86.Build.0 = Release|Any CPU
+>>>>>>> dev
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -209,8 +233,13 @@ Global
 		{4988B645-A6C3-4D68-88D7-F5815F8E10ED} = {5C6BDD7B-6D56-4145-B1C5-5AF8D736C171}
 		{FB18B34A-E617-4236-921B-3686F5FA1223} = {4988B645-A6C3-4D68-88D7-F5815F8E10ED}
 		{33C3C009-9872-4FBB-85B6-D3D0B30613EE} = {E51D2798-D59C-48DC-8A57-2D7FC0A1B41A}
+<<<<<<< HEAD
 		{CFC95FD1-D850-41D1-AB02-46CF6642BB68} = {5C6BDD7B-6D56-4145-B1C5-5AF8D736C171}
 		{CDE2CC68-5E0F-4CF9-9E0C-101B787DA9B0} = {CFC95FD1-D850-41D1-AB02-46CF6642BB68}
+=======
+		{F837ABE4-B9E3-4B7E-8271-22E3FFDDCFE0} = {5C6BDD7B-6D56-4145-B1C5-5AF8D736C171}
+		{E98856CA-BEC3-4771-883A-F52141F7B091} = {F837ABE4-B9E3-4B7E-8271-22E3FFDDCFE0}
+>>>>>>> dev
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B5F8C663-8906-4030-B7AF-BF34132FF453}

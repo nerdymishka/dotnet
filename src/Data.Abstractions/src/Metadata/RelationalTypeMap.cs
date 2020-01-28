@@ -1,21 +1,12 @@
 using System;
 using System.Data;
+using System.Globalization;
 
 namespace NerdyMishka.Data.MetaData
 {
     public class RelationalTypeMap : ISqlTypeMap
     {
-
-        public class NullTypeMap : RelationalTypeMap
-        {
-
-            public NullTypeMap(string storeType)
-                : base(storeType, typeof(object))
-            {
-            }
-        }
-
-        public readonly static RelationalTypeMap Null = new NullTypeMap("NULL");
+        public static readonly RelationalTypeMap Null = new NullTypeMap("NULL");
 
         public RelationalTypeMap(
             string storeType,
@@ -25,7 +16,6 @@ namespace NerdyMishka.Data.MetaData
             int? size = null,
             int? precision = null,
             int? scale = null)
-
         {
             this.SqlType = storeType;
             this.ClrType = clrType;
@@ -56,12 +46,11 @@ namespace NerdyMishka.Data.MetaData
 
         public virtual string FormatProvider => "{0}";
 
-
         public virtual void ConfigureParameter(IDbDataParameter parameter)
         {
         }
 
         public virtual string WriteLiteral(object instance)
-            => string.Format(this.FormatProvider, instance);
+            => string.Format(CultureInfo.InvariantCulture, this.FormatProvider, instance);
     }
 }

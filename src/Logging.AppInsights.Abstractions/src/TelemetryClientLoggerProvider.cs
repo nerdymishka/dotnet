@@ -25,8 +25,8 @@ namespace NerdyMishka.Extensions.Logging.AppInsights.Abstractions
         /// Initializes a new instance of the
         /// <see cref="TelemetryClientLoggerProvider" /> class.
         /// </summary>
-        /// <param name="rawTelemetryClient">The <see cref="IRawTelemetryClient" />.</param>
-        /// <param name="TelemetryClientLoggerOptions">The <see cref="IOptions{TelemetryClientLoggerOptions}" />.</param>
+        /// <param name="rawTelemetryClient">The telemetry client contract with the raw methods.</param>
+        /// <param name="telemetryClientLoggerOptions">The options for the telemetry client.</param>
         public TelemetryClientLoggerProvider(
             IRawTelemetryClient rawTelemetryClient,
             IOptions<TelemetryClientLoggerOptions> telemetryClientLoggerOptions)

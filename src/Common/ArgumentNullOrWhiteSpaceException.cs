@@ -1,3 +1,5 @@
+#if PRIMITIVES
+
 [System.Serializable]
 public class ArgumentNullOrWhiteSpaceException : System.Exception
 {
@@ -38,3 +40,5 @@ public class ArgumentNullOrWhiteSpaceException : System.Exception
 
     public string ParameterName { get; private set; }
 }
+
+#endif

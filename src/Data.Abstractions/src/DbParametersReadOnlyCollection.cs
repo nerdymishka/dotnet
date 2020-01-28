@@ -1,4 +1,3 @@
-
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
@@ -21,7 +20,6 @@ namespace NerdyMishka.Data
         {
             this.collection.Add(parameter);
         }
-
 
         public IEnumerator<IDbDataParameter> GetEnumerator()
         {

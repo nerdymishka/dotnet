@@ -19,5 +19,7 @@ namespace Mettle
         public Type Type { get; set; }
 
         public string Assembly { get; set; }
+
+        public bool IncludeBenchmarks { get; set;  }
     }
 }

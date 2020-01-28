@@ -1,5 +1,3 @@
-
-
 namespace NerdyMishka.Data.Extensions
 {
     public class DataCommandBuilder : IDataCommandBuilder

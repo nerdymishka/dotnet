@@ -44,7 +44,7 @@ namespace Microsoft.Extensions.Logging
         /// Action to configure the <see cref="IRawTelemetryClient"/> service.
         /// </param>
         /// <param name="configurationTelemetryClientOptions">
-        /// Action to configure the <see cref="TelemetryClientLoggerOptions">.</param>
+        /// Action to configure the <c>TelemetryClientLoggerOptions</c>.</param>
         /// <returns>Logging builder with Application Insights added to it.</returns>
         public static ILoggingBuilder AddTelemetryClient(
             this ILoggingBuilder builder,

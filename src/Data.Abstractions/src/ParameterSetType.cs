@@ -11,23 +11,23 @@ namespace NerdyMishka.Data
         None = 0,
 
         /// <summary>
-        /// Array of values.
+        /// A set of parameters stored as a <see cref="System.Collections.IList"/>.
         /// </summary>
-        Array = 1,
+        List = 1,
 
         /// <summary>
-        /// <see cref="System.Collections.Generic.KeyValuePair{String,Object}" />.
+        /// A set of parameters stored as a <see cref="System.Collections.IDictionary"/>.
         /// </summary>
-        KeyValue = 2,
+        Lookup = 2,
 
         /// <summary>
-        /// <see cref="System.Collections.IDictionary" />.
+        /// A set of parameters stored as a <see cref="System.Collections.Generic.IEnumerable{System.Data.IDbDataParameter}"/>.
         /// </summary>
-        Hashtable = 3,
+        TypedList = 3,
 
         /// <summary>
-        /// An enumerable of <see cref="System.Data.IDbDataParameter" />.
+        /// A set of parameters stored as a <see cref="System.Collections.Generic.KeyValuePair{String,Object}" />.
         /// </summary>
-        DbParameters = 4,
+        TypedLookup = 4,
     }
 }
