@@ -18,16 +18,16 @@ namespace NerdyMishka.Reflection
 
         IReflectionMember SetFlag(string flag, bool value);
 
-        T GetMetadata<T>(string name);
+        T GetAnnotation<T>(string name);
 
-        IReflectionMember SetMetadata<T>(string name, T value);
+        IReflectionMember SetAnnotation<T>(string name, T value);
 
         IReflectionMember LoadAttributes(bool inherit = true);
 
         T FindAttribute<T>()
             where T : Attribute;
 
-        IEnumerable<T> FindAttributes<T>()
+        IReadOnlyCollection<T> FindAttributes<T>()
             where T : Attribute;
     }
 }

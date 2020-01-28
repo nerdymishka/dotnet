@@ -5,7 +5,7 @@ namespace NerdyMishka.Reflection
     public interface IReflectionField : IReflectionMember,
         IReflectionValueAccessor
     {
-        FieldInfo PropertyInfo { get; }
+        FieldInfo FieldInfo { get; }
 
         bool CanRead { get; }
 
