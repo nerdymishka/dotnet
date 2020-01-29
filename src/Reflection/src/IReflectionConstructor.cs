@@ -2,7 +2,7 @@ using System.Reflection;
 
 namespace NerdyMishka.Reflection
 {
-    public interface IReflectionConstructor : IReflectionMethod
+    public interface IReflectionConstructor : IReflectionMethodBase
     {
         ConstructorInfo ConstructorInfo { get; }
 

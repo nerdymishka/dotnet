@@ -15,6 +15,8 @@ namespace NerdyMishka.Reflection
             this.ParameterInfo = info;
         }
 
+        public IReflectionTypeInfo DeclaringType { get; }
+
         public override string Name => this.ParameterInfo.Name;
 
         public override Type ClrType => this.ParameterInfo.ParameterType;

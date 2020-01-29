@@ -8,6 +8,8 @@ namespace NerdyMishka.Reflection
     {
         MethodInfo MethodInfo { get; }
 
+        IReflectionParameter ReturnParameter { get; }
+
         object Invoke(object instance, params object[] parameters);
     }
 }

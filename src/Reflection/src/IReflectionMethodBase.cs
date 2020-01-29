@@ -12,5 +12,7 @@ namespace NerdyMishka.Reflection
         IReadOnlyCollection<Type> GenericArguments { get; }
 
         IReadOnlyCollection<Type> ParameterTypes { get; }
+
+        bool IsGenericMethodDefinition { get; }
     }
 }

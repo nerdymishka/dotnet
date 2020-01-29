@@ -5,20 +5,16 @@ namespace NerdyMishka.Reflection
 {
     public interface IReflectionFactory
     {
-        IReflectionParameter CreateParameter(ParameterInfo info,
-            IReflectionTypeInfo declaringType = null);
-
-        IReflectionMethod CreateMethod(MethodInfo info,
-            IReflectionTypeInfo declaringType = null);
+        IReflectionParameter CreateParameter(ParameterInfo info);
 
         IReflectionMethod CreateMethod(
             MethodInfo info,
-            ParameterInfo[] parameters,
+            ParameterInfo[] parameters = null,
             IReflectionTypeInfo declaringType = null);
 
         IReflectionProperty CreateProperty(PropertyInfo info, IReflectionTypeInfo declaringType = null);
 
-        IReflectionProperty CreateProperty(FieldInfo info, IReflectionTypeInfo declaringType = null);
+        IReflectionField CreateField(FieldInfo info, IReflectionTypeInfo declaringType = null);
 
         IReflectionTypeInfo CreateType(Type info);
 
@@ -30,6 +26,7 @@ namespace NerdyMishka.Reflection
 
         IReflectionConstructor CreateConstructor(
             ConstructorInfo info,
+            ParameterInfo[] parameters = null,
             IReflectionTypeInfo declaringType = null);
     }
 }
