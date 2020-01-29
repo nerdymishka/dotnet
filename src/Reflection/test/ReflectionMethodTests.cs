@@ -21,7 +21,13 @@ public class ReflectionMethodTests
     {
         assert.Throws<ArgumentNullException>(() =>
         {
-            _ = new ReflectionProperty(null);
+            _ = new ReflectionMethod(null, null);
+        });
+
+        assert.Throws<ArgumentNullException>(() =>
+        {
+            var method = ReflectData.GetMethod();
+            _ = new ReflectionMethod(method, null);
         });
     }
 
