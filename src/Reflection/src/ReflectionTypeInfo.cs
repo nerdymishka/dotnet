@@ -48,6 +48,9 @@ namespace NerdyMishka.Reflection
 
         public ReflectionTypeInfo(Type type, IReflectionCache cache = null)
         {
+            if (type is null)
+                throw new ArgumentNullException(nameof(type));
+
             this.type = type;
             this.cache = cache;
             this.factory = cache?.ReflectionFactory ??
@@ -141,9 +144,10 @@ namespace NerdyMishka.Reflection
         {
             get
             {
-                if (!this.isListLike.HasValue)
-                    this.Inspect();
+                if (this.isListLike.HasValue)
+                    return this.isListLike.Value;
 
+                this.Inspect();
                 return this.isListLike.Value;
             }
         }
@@ -152,9 +156,10 @@ namespace NerdyMishka.Reflection
         {
             get
             {
-                if (!this.isDictionaryLike.HasValue)
-                    this.Inspect();
+                if (this.isDictionaryLike.HasValue)
+                    return this.isDictionaryLike.Value;
 
+                this.Inspect();
                 return this.isDictionaryLike.Value;
             }
         }
@@ -334,6 +339,8 @@ namespace NerdyMishka.Reflection
 
             if (includeInherit)
                 builder.AddInherit();
+            else
+                builder.AddDeclaredOnly();
 
             var flags = builder.ToFlags();
 
@@ -363,6 +370,8 @@ namespace NerdyMishka.Reflection
 
             if (includeInherit)
                 builder.AddInherit();
+            else
+                builder.AddDeclaredOnly();
 
             var flags = builder.ToFlags();
 
@@ -392,10 +401,12 @@ namespace NerdyMishka.Reflection
 
             if (includeInherit)
                 builder.AddInherit();
+            else
+                builder.AddDeclaredOnly();
 
             var flags = builder.ToFlags();
 
-            return this.LoadProperties(flags);
+            return this.LoadMethods(flags);
         }
 
         public IReflectionTypeInfo LoadMethods(BindingFlags flags)
@@ -417,7 +428,11 @@ namespace NerdyMishka.Reflection
         {
             if (this.IsValueType || this.IsEnum || this.IsAbstract || this.IsPointer || this.IsNullableOfT
                 || this.IsDataType)
+            {
+                this.isDictionaryLike = false;
+                this.isListLike = false;
                 return;
+            }
 
             if (this.IsInterface)
             {
@@ -553,6 +568,9 @@ namespace NerdyMishka.Reflection
                     return;
                 }
             }
+
+            this.isListLike = false;
+            this.isDictionaryLike = false;
         }
 
         private IReflectionTypeInfo GetType(Type type)
