@@ -11,25 +11,5 @@ namespace NerdyMishka.Reflection
         IReadOnlyCollection<IReflectionProperty> Properties { get; }
 
         IReadOnlyCollection<IReflectionMethod> Methods { get; }
-
-        IReflectionField GetField(
-            string name,
-            BindingFlags flags = BindingFlags.Public | BindingFlags.Instance);
-
-        IEnumerable<IReflectionField> GetDeclaredFields();
-
-        IReflectionProperty GetProperty(
-            string name,
-            BindingFlags flags = BindingFlags.Public | BindingFlags.Instance);
-
-        IEnumerable<IReflectionProperty> GetDeclaredProperties();
-
-        IReflectionMethod GetMethod(
-            string name,
-            BindingFlags flags = BindingFlags.Public | BindingFlags.Instance,
-            Type[] genericArgTypes = null,
-            Type[] parameterTypes = null);
-
-        IEnumerable<IReflectionMethod> GetDeclaredMethods();
     }
 }

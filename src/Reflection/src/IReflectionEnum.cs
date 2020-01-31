@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace NerdyMishka.Reflection
 {
-    public interface IReflectionEnum : IReflectionTypeInfo
+    public interface IReflectionEnum
     {
         IReadOnlyCollection<string> EnumNames { get; }
 

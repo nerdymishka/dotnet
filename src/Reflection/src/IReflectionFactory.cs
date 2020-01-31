@@ -18,12 +18,6 @@ namespace NerdyMishka.Reflection
 
         IReflectionTypeInfo CreateType(Type info);
 
-        IReflectionTypeInfo CreateType(TypeInfo info);
-
-        IReflectionInterface CreateInterface(Type info);
-
-        IReflectionInterface CreateInterface(TypeInfo info);
-
         IReflectionConstructor CreateConstructor(
             ConstructorInfo info,
             ParameterInfo[] parameters = null,

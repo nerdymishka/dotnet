@@ -5,6 +5,15 @@ namespace NerdyMishka.Reflection
 {
     public class ReflectionFactory : IReflectionFactory
     {
+        internal static readonly IReflectionFactory Default = new ReflectionFactory();
+
+        private IReflectionCache cache = null;
+
+        public ReflectionFactory(ReflectionCache cache = null)
+        {
+            this.cache = cache;
+        }
+
         public virtual IReflectionParameter CreateParameter(ParameterInfo info)
         {
             return new ReflectionParameter(info);
@@ -36,24 +45,9 @@ namespace NerdyMishka.Reflection
             return new ReflectionField(info, declaringType);
         }
 
-        public virtual IReflectionTypeInfo CreateType(Type info)
+        public virtual IReflectionTypeInfo CreateType(Type type)
         {
-            return null;
-        }
-
-        public virtual IReflectionTypeInfo CreateType(TypeInfo info)
-        {
-            return null;
-        }
-
-        public virtual IReflectionInterface CreateInterface(Type info)
-        {
-            return null;
-        }
-
-        public virtual IReflectionInterface CreateInterface(TypeInfo info)
-        {
-            return null;
+            return new ReflectionTypeInfo(type, this.cache);
         }
 
         public virtual IReflectionConstructor CreateConstructor(

@@ -10,6 +10,40 @@ namespace NerdyMishka.Reflection
 
         bool IsArray { get; }
 
+        bool IsListLike { get; }
+
+        bool IsDictionaryLike { get; }
+
+        bool IsNullableOfT { get; }
+
+        bool IsAbstract { get; }
+
+        bool IsByRef { get; }
+
+        bool IsClass { get; }
+
+        bool IsEnum { get; }
+
+        bool IsInterface { get; }
+
+        bool IsValueType { get; }
+
+        bool IsPrimitive { get; }
+
+        bool IsPublic { get; }
+
+        bool IsNotPublic { get; }
+
+        bool IsGenericType { get; }
+
+        bool IsGenericTypeDefinition { get; }
+
+        bool IsSealed { get; }
+
+        bool IsDataType { get; }
+
+        IReflectionTypeInfo UnderlyingType { get; }
+
         IReflectionTypeInfo BaseType { get; }
 
         string FullName { get; }
@@ -18,12 +52,28 @@ namespace NerdyMishka.Reflection
 
         IReadOnlyCollection<IReflectionTypeInfo> Interfaces { get; }
 
-        IReflectionTypeInfo LoadInterfaces(bool inherit = false);
+        IReflectionTypeInfo GetElementType();
 
-        IReflectionTypeInfo LoadFields(bool inherit = false);
+        IReflectionTypeInfo GetKeyType();
 
-        IReflectionTypeInfo LoadProperties(bool inherit = false);
+        IReflectionTypeInfo LoadInterfaces();
 
-        IReflectionTypeInfo LoadMethods(bool inherit = false);
+        IReflectionTypeInfo LoadFields(
+            bool includeStatic = false,
+            bool includeInherit = false);
+
+        IReflectionTypeInfo LoadFields(BindingFlags flags);
+
+        IReflectionTypeInfo LoadProperties(
+            bool includeStatic = false,
+            bool includeInherit = false);
+
+        IReflectionTypeInfo LoadProperties(BindingFlags flags);
+
+        IReflectionTypeInfo LoadMethods(
+            bool includeStatic = false,
+            bool includeInherit = false);
+
+        IReflectionTypeInfo LoadMethods(BindingFlags flags);
     }
 }
