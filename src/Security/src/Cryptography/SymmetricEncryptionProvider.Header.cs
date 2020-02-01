@@ -14,9 +14,6 @@ namespace NerdyMishka.Security.Cryptography
     /// </summary>
     public partial class SymmetricEncryptionProvider
     {
-        private SymmetricAlgorithm algorithm;
-        private KeyedHashAlgorithm signingAlgorithm;
-
         protected internal Header ReadHeader(
             Stream reader,
             ISymmetricEncryptionProviderOptions options,
@@ -26,7 +23,11 @@ namespace NerdyMishka.Security.Cryptography
             Check.NotNull(nameof(reader), reader);
             Check.NotNull(nameof(options), options);
 
-            var signingKey = options.SigningKey;
+            ReadOnlySpan<byte> signingKey = default;
+
+            if (options.SigningKey != null)
+                signingKey = options.SigningKey.Memory.Span;
+
             using (var ms = new MemoryStream())
             using (var bw = new BinaryWriter(ms, Utf8.NoBom, true))
             using (var br = new BinaryReader(reader, Utf8.NoBom, true))
@@ -213,8 +214,11 @@ namespace NerdyMishka.Security.Cryptography
             IEncryptionProvider symmetricKeyEncryptionProvider = null)
         {
             Check.NotNull(nameof(options), options);
-            privateKey = !privateKey.IsEmpty ? privateKey : options.Key.Span;
-            var signingKey = options.SigningKey;
+            privateKey = !privateKey.IsEmpty ? privateKey : options.Key.Memory.Span;
+
+            ReadOnlySpan<byte> signingKey = default;
+            if (options.SigningKey != null)
+                signingKey = options.SigningKey.Memory.Span;
 
             // header values
             // 1. version
@@ -236,10 +240,13 @@ namespace NerdyMishka.Security.Cryptography
             var header = new HeaderV1();
             header.MetaDataSize = metadata.Length;
 
-            if (symmetricKey == null && privateKey == null)
+            bool privateKeyEmpty = privateKey == null || privateKey.IsEmpty;
+            bool symmetricKeyEmpty = symmetricKey == null || symmetricKey.IsEmpty;
+
+            if (privateKeyEmpty && symmetricKeyEmpty)
                 throw new ArgumentNullException(nameof(privateKey), "privateKey or symmetricKey must have a value");
 
-            if (!options.SkipSigning && privateKey == null && signingKey.IsEmpty)
+            if (!options.SkipSigning && privateKeyEmpty && signingKey.IsEmpty)
                 throw new ArgumentNullException(nameof(privateKey),
                     "privateKey must have a value or options.SigningKey must have a value or options.SkipSigning must be true");
 
@@ -259,7 +266,7 @@ namespace NerdyMishka.Security.Cryptography
                 header.SymmetricKeySize = (short)(options.KeySize / 8);
             }
 
-            this.algorithm = this.algorithm ?? Create(options);
+            this.algorithm = this.algorithm ?? CreateSymmetricAlgorithm(options);
             this.algorithm.GenerateIV();
             var iv = this.algorithm.IV;
             header.IvSize = (short)iv.Length;
@@ -352,7 +359,8 @@ namespace NerdyMishka.Security.Cryptography
             }
         }
 
-        private static SymmetricAlgorithm Create(ISymmetricEncryptionProviderOptions options)
+        private static SymmetricAlgorithm CreateSymmetricAlgorithm(
+            ISymmetricEncryptionProviderOptions options)
         {
             if (options.SymmetricAlgorithm == SymmetricAlgorithmType.None)
                 throw new ArgumentException("SymmetricAlgo", nameof(options));

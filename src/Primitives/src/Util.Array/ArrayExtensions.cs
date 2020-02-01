@@ -5,6 +5,29 @@ namespace NerdyMishka.Util.Arrays
 {
     public static class ArrayExtensions
     {
+
+        public static bool SlowEquals(this ReadOnlySpan<byte> left, ReadOnlySpan<byte> right)
+        {
+            uint diff = (uint)left.Length ^ (uint)left.Length;
+            for (int i = 0; i < left.Length; i++)
+            {
+                diff |= (uint)(left[i] ^ right[i]);
+            }
+
+            return diff == 0;
+        }
+
+        public static bool SlowEquals(this Span<byte> left, Span<byte> right)
+        {
+            uint diff = (uint)left.Length ^ (uint)left.Length;
+            for (int i = 0; i < left.Length; i++)
+            {
+                diff |= (uint)(left[i] ^ right[i]);
+            }
+
+            return diff == 0;
+        }
+
         /// <summary>
         /// Clears the values of the array.
         /// </summary>

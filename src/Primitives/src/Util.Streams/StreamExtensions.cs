@@ -40,6 +40,22 @@ namespace NerdyMishka.Util.Streams
             }
         }
 
+        public static void Write(this BinaryWriter writer, Memory<byte> buffer)
+        {
+            Check.NotNull(nameof(writer), writer);
+
+            byte[] sharedBuffer = ArrayPool<byte>.Shared.Rent(buffer.Length);
+            try
+            {
+                buffer.CopyTo(sharedBuffer);
+                writer.Write(sharedBuffer, 0, buffer.Length);
+            }
+            finally
+            {
+                ArrayPool<byte>.Shared.Return(sharedBuffer);
+            }
+        }
+
 #endif
     }
 }

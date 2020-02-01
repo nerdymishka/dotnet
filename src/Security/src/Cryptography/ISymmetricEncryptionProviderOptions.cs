@@ -1,9 +1,10 @@
 using System;
+using System.Buffers;
 using System.Security.Cryptography;
 
 namespace NerdyMishka.Security.Cryptography
 {
-    public interface ISymmetricEncryptionProviderOptions
+    public interface ISymmetricEncryptionProviderOptions : IDisposable
     {
         int KeySize { get; set; }
 
@@ -25,8 +26,12 @@ namespace NerdyMishka.Security.Cryptography
 
         bool SkipSigning { get; set; }
 
-        ReadOnlyMemory<byte> Key { get; set; }
+        IMemoryOwner<byte> Key { get; }
 
-        ReadOnlyMemory<byte> SigningKey { get; set; }
+        IMemoryOwner<byte> SigningKey { get; }
+
+        void SetKey(ReadOnlySpan<byte> key);
+
+        void SetSigningKey(ReadOnlySpan<byte> signingKey);
     }
 }

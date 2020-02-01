@@ -11,9 +11,13 @@
         "HMACMD",
         "Mddhhmm",
         "Mishka",
+        "create",
+        "decryptor",
+        "encryptor",
         "hmac",
         "hmacripemd",
         "hmacsha",
-        "pbkdf"
+        "pbkdf",
+        "pkcs"
     ]
 }
