@@ -62,7 +62,7 @@ namespace NerdyMishka.Security.Cryptography
                     this.algorithm = this.algorithm ?? CreateSymmetricAlgorithm(this.options);
                     var messageSize = blob.Length - header.HeaderSize;
                     var message = new byte[messageSize];
-                    Array.Copy(rental, header.Bytes.Memory.Length, message, 0, messageSize);
+                    Array.Copy(rental, header.HeaderSize, message, 0, messageSize);
 
                     if (header.Hash != null)
                     {
@@ -80,7 +80,7 @@ namespace NerdyMishka.Security.Cryptography
                     }
 
                     symmetricKeyRental = ArrayPool<byte>.Shared.Rent(header.SymmetricKey.Memory.Length);
-                    ivRental = ArrayPool<byte>.Shared.Rent(header.IV.Memory.Length);
+                    ivRental = ArrayPool<byte>.Shared.Rent(header.IvSize);
                     header.SymmetricKey.Memory.CopyTo(symmetricKeyRental);
                     header.IV.Memory.CopyTo(ivRental);
                     using (var decryptor = this.algorithm.CreateDecryptor(symmetricKeyRental, ivRental))
@@ -231,10 +231,10 @@ namespace NerdyMishka.Security.Cryptography
         ///  stored with the message.
         /// </param>
         /// <returns>Encrypted bytes.</returns>
-        public byte[] Encrypt(
-            byte[] blob,
-            byte[] privateKey = null,
-            byte[] symmetricKey = null,
+        public ReadOnlySpan<byte> Encrypt(
+            ReadOnlySpan<byte> blob,
+            ReadOnlySpan<byte> privateKey = default,
+            ReadOnlySpan<byte> symmetricKey = default,
             IEncryptionProvider symmetricKeyEncryptionProvider = null)
         {
             if (blob == null)
@@ -251,7 +251,7 @@ namespace NerdyMishka.Security.Cryptography
                 {
                     byte[] encryptedBlob = null;
                     symmetricKeyRental = pool.Rent(header.SymmetricKey.Memory.Length);
-                    ivRental = pool.Rent(header.IV.Memory.Length);
+                    ivRental = pool.Rent(header.IvSize);
                     header.SymmetricKey.Memory.CopyTo(symmetricKeyRental);
                     header.IV.Memory.CopyTo(ivRental);
 
@@ -269,13 +269,15 @@ namespace NerdyMishka.Security.Cryptography
                         encryptedBlob = ms.ToArray();
                     }
 
-                    headerRental = pool.Rent(header.Bytes.Memory.Length);
+                    headerRental = pool.Rent(header.HeaderSize);
                     header.Bytes.Memory.CopyTo(headerRental);
 
                     if (!this.options.SkipSigning && header.SigningKey != null && !header.SigningKey.Memory.IsEmpty)
                     {
                         signingKeyRental = pool.Rent(header.SigningKey.Memory.Length);
                         this.signingAlgorithm = this.signingAlgorithm ?? CreateSigningAlgorithm(this.options);
+
+                        header.SigningKey.Memory.CopyTo(signingKeyRental);
                         this.signingAlgorithm.Key = signingKeyRental;
                         var hash = this.signingAlgorithm.ComputeHash(encryptedBlob);
 
@@ -288,7 +290,7 @@ namespace NerdyMishka.Security.Cryptography
                     using (var ms = new MemoryStream())
                     using (var writer = new BinaryWriter(ms))
                     {
-                        writer.Write(headerRental);
+                        writer.Write(headerRental, 0, header.HeaderSize);
                         writer.Write(encryptedBlob);
                         encryptedBlob.Clear();
                         writer.Flush();
@@ -351,7 +353,7 @@ namespace NerdyMishka.Security.Cryptography
                 using (var header = this.GenerateHeader(this.options, symmetricKey, privateKey, null, symmetricKeyEncryptionProvider))
                 {
                     symmetricKeyRental = pool.Rent(header.SymmetricKey.Memory.Length);
-                    ivRental = pool.Rent(header.IV.Memory.Length);
+                    ivRental = pool.Rent(header.IvSize);
                     header.SymmetricKey.Memory.CopyTo(symmetricKeyRental);
                     header.IV.Memory.CopyTo(ivRental);
                     this.algorithm = this.algorithm ?? CreateSymmetricAlgorithm(this.options);

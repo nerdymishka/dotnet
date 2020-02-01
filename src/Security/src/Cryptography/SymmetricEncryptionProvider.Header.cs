@@ -47,12 +47,13 @@ namespace NerdyMishka.Security.Cryptography
                 // 1. version
                 // 2. algo
                 // 3. signing,
-                // 2. metadataSize
-                // 3. symmetricSaltSize
-                // 4. signingSaltSize
-                // 5. ivSize
-                // 6. symmetricKeySize
-                // 7. hashSize
+                // 4. metadataSize
+                // 5  iterations
+                // 6. symmetricSaltSize
+                // 7. signingSaltSize
+                // 8. ivSize
+                // 9. symmetricKeySize
+                // 10. hashSize
 
                 // header values
                 // 1. metadata
@@ -172,7 +173,7 @@ namespace NerdyMishka.Security.Cryptography
                     }
                 }
 
-                if (!options.SkipSigning && signingKey.IsEmpty)
+                if (!options.SkipSigning && (signingKey == null || signingKey.IsEmpty))
                 {
                     if (signingSalt == null)
                         throw new InvalidOperationException("symmetricSalt for the privateKey could not be retrieved");
@@ -189,15 +190,20 @@ namespace NerdyMishka.Security.Cryptography
                 }
 
                 {
-                    var buffer = MemoryPool<byte>.Shared.Rent(options.KeySize / 8);
-                    symmetricKey.CopyTo(buffer.Memory.Span);
-                    header.SymmetricKey = buffer;
+                    IMemoryOwner<byte> buffer = null;
+
+                    if (header.SymmetricKeySize > 0)
+                    {
+                        buffer = MemoryPool<byte>.Shared.Rent(header.SymmetricKeySize);
+                        symmetricKey.CopyTo(buffer.Memory.Span);
+                        header.SymmetricKey = buffer;
+                    }
 
                     buffer = MemoryPool<byte>.Shared.Rent(iv.Length);
                     iv.CopyTo(buffer.Memory.Span);
                     header.IV = buffer;
 
-                    buffer = MemoryPool<byte>.Shared.Rent(hash.Length);
+                    buffer = MemoryPool<byte>.Shared.Rent(header.HashSize);
                     hash.CopyTo(buffer.Memory.Span);
                     header.Hash = buffer;
                 }
@@ -231,11 +237,11 @@ namespace NerdyMishka.Security.Cryptography
             // 8. hashSize
 
             // header values
-            // 1. metadata
-            // 2. symmetricSalt
-            // 3. signingSalt
+            // 1. metadata (optional)
+            // 2. symmetricSalt (optional)
+            // 3. signingSalt (optional)
             // 4. iv
-            // 5. symmetricKey
+            // 5. symmetricKey (optional)
             // 6. hash
             var header = new HeaderV1();
             header.MetaDataSize = metadata.Length;
@@ -254,7 +260,7 @@ namespace NerdyMishka.Security.Cryptography
             {
                 header.SymmetricSaltSize = (short)(options.SaltSize / 8);
 
-                if (!options.SkipSigning && signingKey.IsEmpty)
+                if (!options.SkipSigning && (signingKey == null || signingKey.IsEmpty))
                 {
                     header.SigningSaltSize = (short)(options.SaltSize / 8);
                     this.signingAlgorithm = this.signingAlgorithm ?? CreateSigningAlgorithm(options);
@@ -304,12 +310,14 @@ namespace NerdyMishka.Security.Cryptography
                 if (privateKey != null)
                 {
                     ReadOnlySpan<byte> symmetricSalt = GenerateSalt(header.SymmetricSaltSize);
+                    if (symmetricSalt.Length != header.SymmetricSaltSize)
+                        throw new Exception("bad length");
 
                     using (var generator = new Rfc2898DeriveBytes(privateKey, symmetricSalt, options.Iterations, HashAlgorithmName.SHA256))
                     {
-                        symmetricSalt = generator.Salt;
+                        //symmetricSalt = generator.Salt;
                         ReadOnlySpan<byte> bytes = generator.GetBytes(options.KeySize / 8);
-                        var buffer = MemoryPool<byte>.Shared.Rent(options.KeySize / 8);
+                        var buffer = MemoryPool<byte>.Shared.Rent(bytes.Length);
                         bytes.CopyTo(buffer.Memory.Span);
                         header.SymmetricKey = buffer;
 
@@ -323,9 +331,8 @@ namespace NerdyMishka.Security.Cryptography
                         using (var generator = new Rfc2898DeriveBytes(
                             privateKey, signingSalt, options.Iterations, HashAlgorithmName.SHA256))
                         {
-                            signingSalt = generator.Salt;
                             signingKey = generator.GetBytes(options.KeySize / 8);
-                            var buffer = MemoryPool<byte>.Shared.Rent(options.KeySize / 8);
+                            var buffer = MemoryPool<byte>.Shared.Rent(signingKey.Length);
                             signingKey.CopyTo(buffer.Memory.Span);
                             header.SigningKey = buffer;
                             bw.Write(signingSalt);
