@@ -8,7 +8,10 @@
     "csharp.format.enable": true,
     "csharpextensions.reFormatAfterChange": true,
     "cSpell.words": [
+        "HMACMD",
         "Mddhhmm",
-        "Mishka"
+        "Mishka",
+        "hmacripemd",
+        "hmacsha"
     ]
 }

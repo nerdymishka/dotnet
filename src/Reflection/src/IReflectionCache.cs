@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace NerdyMishka.Reflection
 {
-    public interface IReflectionCache : IReflectionFactorySource
+    public interface IReflectionCache : IReflectionFactorySource, IDisposable
     {
         void Clear();
 
