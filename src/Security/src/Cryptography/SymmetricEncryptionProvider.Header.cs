@@ -250,7 +250,7 @@ namespace NerdyMishka.Security.Cryptography
                 throw new ArgumentNullException(nameof(privateKey),
                     "privateKey must have a value or options.SigningKey must have a value or options.SkipSigning must be true");
 
-            if (privateKey != null)
+            if (!privateKeyEmpty)
             {
                 header.SymmetricSaltSize = (short)(options.SaltSize / 8);
 
@@ -261,7 +261,7 @@ namespace NerdyMishka.Security.Cryptography
                 }
             }
 
-            if (symmetricKey != null)
+            if (!symmetricKeyEmpty)
             {
                 header.SymmetricKeySize = (short)(options.KeySize / 8);
             }
@@ -274,9 +274,6 @@ namespace NerdyMishka.Security.Cryptography
                 var buffer = MemoryPool<byte>.Shared.Rent(iv.Length);
                 iv.CopyTo(buffer.Memory.Span);
                 header.IV = buffer;
-
-                buffer = MemoryPool<byte>.Shared.Rent(header.HeaderSize);
-                header.Bytes = buffer;
             }
 
             header.HashSize = (short)(this.signingAlgorithm.HashSize / 8);
@@ -314,7 +311,9 @@ namespace NerdyMishka.Security.Cryptography
                         ReadOnlySpan<byte> bytes = generator.GetBytes(options.KeySize / 8);
                         var buffer = MemoryPool<byte>.Shared.Rent(options.KeySize / 8);
                         bytes.CopyTo(buffer.Memory.Span);
-                        bw.Write(bytes);
+                        header.SymmetricKey = buffer;
+
+                        bw.Write(symmetricSalt);
                     }
 
                     if (!options.SkipSigning || !signingKey.IsEmpty)
@@ -325,11 +324,10 @@ namespace NerdyMishka.Security.Cryptography
                             privateKey, signingSalt, options.Iterations, HashAlgorithmName.SHA256))
                         {
                             signingSalt = generator.Salt;
-                            symmetricKey = generator.GetBytes(options.KeySize / 8);
-                            var buffer = MemoryPool<byte>.Shared.Rent(symmetricKey.Length);
-                            symmetricKey.CopyTo(buffer.Memory.Span);
+                            signingKey = generator.GetBytes(options.KeySize / 8);
+                            var buffer = MemoryPool<byte>.Shared.Rent(options.KeySize / 8);
+                            signingKey.CopyTo(buffer.Memory.Span);
                             header.SigningKey = buffer;
-
                             bw.Write(signingSalt);
                         }
 
@@ -338,7 +336,7 @@ namespace NerdyMishka.Security.Cryptography
                 }
 
                 bw.Write(iv);
-                if (!symmetricKey.IsEmpty)
+                if (!symmetricKeyEmpty)
                 {
                     bw.Write(symmetricKey);
                 }
@@ -346,6 +344,10 @@ namespace NerdyMishka.Security.Cryptography
                 bw.Flush();
                 ms.Flush();
                 header.Position = ms.Position;
+
+                ReadOnlySpan<byte> data = ms.ToArray();
+                header.Bytes = MemoryPool<byte>.Shared.Rent(header.HeaderSize);
+                data.CopyTo(header.Bytes.Memory.Span);
             }
 
             return header;
