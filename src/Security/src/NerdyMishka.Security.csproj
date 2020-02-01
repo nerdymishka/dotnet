@@ -8,4 +8,12 @@
     <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.6.0" />
     <PackageReference Include="System.Memory" Version="4.5.3" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../Primitives/src/*.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="../../Common/Check.cs" />
+  </ItemGroup>
 </Project>

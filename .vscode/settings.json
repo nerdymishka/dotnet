@@ -11,7 +11,9 @@
         "HMACMD",
         "Mddhhmm",
         "Mishka",
+        "hmac",
         "hmacripemd",
-        "hmacsha"
+        "hmacsha",
+        "pbkdf"
     ]
 }
